@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>九和居-首页</title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/iconfont.css" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			input[type='search']{
+				background-color: #fff;
+				border: 1px solid #e1dddd;
+				text-align: left;
+				font-size: 1.4rem;
+				color: #333;
+				width: 90%;
+			}
+			.recommend-con{
+				position: relative; 
+			}
+			.xinpin{
+				position: absolute;   
+				top: 5%;
+				left: 8%;
+			}
+		</style>
+	</head>  
+	<body>
+		<header class="mui-bar mui-bar-nav mui-clearfix">
+			<a class="iconfont mui-icon icon-saoyisao mui-pull-left" id="erwei"></a>
+			<h1 class="mui-title"><input type="search" pattern="\d*"/ placeholder="请输入搜索内容" value="" id="sear_name"></h1>
+			<!--<h1 class="mui-title index"><img src="images/logo.png"/></h1>-->
+			<a class="mui-icon mui-pull-right" style="color: #333; font-size: 1.4rem;top: 10%; padding-right: 15px;" id="searchTap">搜索</a>
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="refreshContainer">
+			<!--顶部-->
+			<div class="mui-slider tabList">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div class="mui-scroll"> 
+						<!--<a class="mui-control-item nav-list mui-active" href="#item1mobile" data-id="" data-url=""><span>推荐</span></a>
+					<a class="mui-control-item nav-list" href="#item2mobile" data-id="" data-url=""><span>家具</span></a>
+					<a class="mui-control-item nav-list" href="#item3mobile" data-id="" data-url=""><span>家电</span></a>
+					<a class="mui-control-item nav-list" href="#item5mobile" data-id="" data-url=""><span>家装</span></a>
+					<a class="mui-control-item nav-list" href="#item1mobile" data-id="" data-url=""><span>家居</span></a>
+					<a class="mui-control-item nav-list" href="#item2mobile" data-id="" data-url=""><span>厨卫</span></a>
+					<a class="mui-control-item nav-list" href="#item3mobile" data-id="" data-url=""><span>家纺</span></a> 
+					<a class="mui-control-item nav-list" href="#item5mobile" data-id="" data-url=""><span>元币</span></a>-->
+					</div>
+				</div>
+			</div>
+			<!--轮播图-->
+			<div id="slider" class="mui-slider banner">
+				<div class="mui-slider-group mui-slider-loop" id="lunbo">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<!--<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 第一张 -->
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 第二张 -->
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 第三张 -->
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<!--<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+				</div>
+				<div class="mui-slider-indicator" id="lunbo2">
+					<!--<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>-->
+				</div>
+			</div>
+			<!--活动公告-->
+			<div class="huodong mui-row">
+				<div class="mui-col-xs-2">
+					活动<span class="red">公告</span>
+				</div>
+				<div class="mui-col-xs-8">
+					<!--<marquee direction="up" behavior="scroll" scrolldelay="300" style="height: 3rem;">
+						<p class="mui-ellipsis">4月家装节，全套家具折上折，一站式购物平台</p>
+						<p class="mui-ellipsis">00000</p>
+						<p class="mui-ellipsis">4月家装节，全套家具折上折，一站式购物平台</p>
+					</marquee>-->
+					<div class="mui-scroll" id="notice">
+						<p class="mui-ellipsis">4月家装节，全套家具折上折，一站式购物平台</p> 
+					</div>
+				</div>
+				<div class="mui-col-xs-1 gray more">
+					<span>|  </span>更多
+				</div>
+			</div>
+
+			<div class="mui-table-view mui-grid-view mui-grid-9 b6 sortList">
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a data-id="limite_time" data-url="limite_time.html">
+						<span class="icon1"><img src="images/icon1.png"></span>
+						<div class="mui-media-body">秒杀</div>
+					</a>
+					<img src="images/hot-icon.png" class="icon" />
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a data-id="goods_list" data-url="goods_list.html" data-categoryid="2">
+						<span class="icon1"><img src="images/icon2.png"></span>
+						<div class="mui-media-body">家具</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a data-id="goods_list" data-url="goods_list.html" data-categoryid="6"> 
+						<span class="icon1"><img src="images/icon3.png"></span>
+						<div class="mui-media-body">家装</div>
+					</a> 
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a data-id="goods_list" data-url="goods_list.html" data-categoryid="9">
+						<span class="icon1"><img src="images/icon4.png"></span>
+						<div class="mui-media-body">厨卫</div>
+					</a>
+				</li> 
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a data-id="goods_list" data-url="goods_list.html" data-categoryid="5">
+						<span class="icon1"><img src="images/icon5.png"></span>
+						<div class="mui-media-body">家电</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a data-id="goods_list" data-url="goods_list.html" data-categoryid="7">
+						<span class="icon1"><img src="images/icon6.png"></span>
+						<div class="mui-media-body">家居</div>
+					</a> 
+				</li>  
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a data-id="goods_list" data-url="goods_list.html" data-categoryid="8">
+						<span class="icon1"><img src="images/icon7.png"></span>
+						<div class="mui-media-body">家纺</div>
+					</a>  
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a data-id="hebiduihuan" data-url="hebiduihuan.html">
+						<span class="icon1"><img src="images/icon8.png"></span>
+						<div class="mui-media-body">合币兑换</div> 
+					</a>
+					<img src="images/new-icon.png" class="icon1" />
+				</li>
+			</div>
+			<div class="img-middle" > 
+				<a data-id="erweima" data-url="erweima.html"><img src="images/tu1.png"/></a>
+			</div>
+			<!--每日限时秒杀-->
+			<div class="limite-time mui-clearfix">
+				<div class="mui-pull-left">每日限时秒杀</div>
+				<div class="mui-pull-right">
+					倒计时
+					<span class="t_h">00</span>
+					<span>:</span>
+					<span class="t_m">00</span>
+					<span>:</span>
+					<span class="t_s">00</span>
+				</div>
+			</div>
+			<div class="limite-con mui-clearfix">
+				<div class="con-left mui-pull-left">
+					<div class="con-left-top" id="ad1">
+						
+					</div>
+					<div class="con-left-bottom mui-clearfix" id="limite">
+
+						<!--<div class="con-left-bottomcon mui-pull-left">
+							<img src="images/ms4.png" />
+							<p class="mui-ellipsis">苹果DSL台式电脑</p>
+							<div class="con-left-bottomcon-bom">
+								<span class="red">￥1699</span>
+								<span class="gray">￥2268</span>
+							</div>
+						</div>
+						<div class="con-left-bottomcon mui-pull-left">
+							<img src="images/ms5.png" />
+							<p class="mui-ellipsis">薰衣草香酵素洗衣液</p>
+							<div class="con-left-bottomcon-bom">
+								<span class="red">￥9.9</span>
+								<span class="gray">￥16.8</span>
+							</div>
+							<div class="ms-icon">
+								<img src="images/limite4.png" />
+							</div>
+						</div>-->
+
+					</div> 
+				</div>
+				<div class="con-right mui-pull-left ad2">
+					<!--<div class="con-right-con">
+						<img src="images/ms2.png" />
+						<div class="ms-icon1">
+							<img src="images/limite2.png" />
+						</div>
+					</div>
+					<div class="con-right-con">
+						<img src="images/ms3.png" />
+						<div class="ms-icon2">
+							<img src="images/limite3.png" />
+						</div>
+					</div>
+					<div class="con-right-con">
+						<img src="images/ms6.png" />
+						<div class="ms-icon3">
+							<img src="images/limite5.png" />
+						</div>
+					</div>-->
+				</div>
+			</div>
+
+			<!--精品推荐-->
+			<div class="img-middle">
+				<a href=""><img src="images/jingpintuijian.png" /></a>
+			</div>
+			<div class="recommend-list mui-clearfix">
+				<!--<div class="recommend-con mui-pull-left">
+					<img src="images/22.png" />
+					<div class="recommend-title mui-ellipsis-2">九和居 北欧小户型布艺沙发 组合沙发 日式客厅家具 三人位</div>
+					<div class="recommend-bottom">
+						<div class="recommend-bottom-top mui-clearfix">
+							<div class="hebin mui-pull-left">
+								<img src="images/hebin1.png" />
+								<div class="zhb">赠合币</div>
+								<div class="num">30</div>
+							</div>
+							<span class="mui-block mui-pull-right">已售: 24件</span>
+						</div>
+						<div class="recommend-bottom-bom mui-clearfix">
+							<span class="mui-block mui-pull-left red">￥1590</span>
+							<span class="mui-block mui-pull-left gray">￥1999</span>
+							<span class="mui-block mui-pull-right">剩余: 76件</span>
+						</div>
+					</div>
+					<div class="xinpin"><img src="images/xinpin.png" style="width: 5rem; height: 5rem;border: none;"/></div>
+				</div>-->
+
+			</div>
+
+		</div>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					down: {
+						style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+						auto: true,
+						callback: push_down //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+			function push_down() {
+				location.reload();
+			}
+			var page =1,
+			page_size = 10;
+			mui.plusReady(function() {
+				console.log("token:"+localStorage.getItem('token')); 
+				//顶部scroll
+				getTopList(); 
+				//轮播图
+				lunBo();
+				//限时秒杀
+				getLimite();
+				//活动公告
+				getNotice();
+				//首页推荐
+				getRecommend();
+				//广告位  
+				getAdvertising();
+				//二维码扫描
+				document.getElementById('erwei').addEventListener('tap', function() {
+					var url = "erwei.html";
+					var id = "erwei";
+					mui.openWindow({
+						id: id,
+						url: url,
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				});
+				
+				//拉新人 拿奖励
+				mui('.img-middle').on('tap', 'a', function() {
+					var url = this.getAttribute('data-url');
+					var id = this.getAttribute('data-id');
+					mui.openWindow({ 
+						id: id,
+						url: url, 
+						extras: { 
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				});
+				//搜索
+				document.getElementById('searchTap').addEventListener('tap', function() {
+					var sear_name = document.getElementById("sear_name").value;
+					console.log(sear_name); 
+					mui.openWindow({ 
+						id: 'search',
+						url: 'search.html',  
+						extras: { 
+							sear_name: sear_name
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				});
+				
+				mui('.sortList .mui-table-view-cell').on('tap', 'a', function() {
+					var url = this.getAttribute('data-url');
+					var id = this.getAttribute('data-id');
+					var index = this.getAttribute('data-value');
+					mui.openWindow({
+						id: id,
+						url: url,
+						extras: { 
+							index: index
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				});
+				
+			}) 
+			//顶部scroll 
+			function getTopList() { 
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/goods/goodsCategoryList&token='+localStorage.getItem('token'), {
+					data: {},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；    
+					success: function(data) {  
+//						console.log("顶部scroll:"+JSON.stringify(data));   
+						var html = '';
+						html +='<a class="mui-control-item nav-list mui-active" href="#item1mobile"><span>推荐</span></a>';
+						mui.each(data, function(index, item) {
+							html += '<a class="mui-control-item nav-list"  href="#item1mobile" data-id="goods_list" data-url="goods_list.html" data-categoryid="'+item.category_id+'"><span>' + item.category_name + '</span></a>';
+						})
+						$("#sliderSegmentedControl .mui-scroll").html(html);
+						$('#sliderSegmentedControl a').eq(0).addClass('mui-active');
+						mui('#sliderSegmentedControl .mui-scroll').on('tap', 'a', function() {
+							var url = this.getAttribute('data-url');
+							var id = this.getAttribute('data-id');
+							var categoryid = this.getAttribute('data-categoryid');
+							console.log(categoryid);
+							mui.openWindow({
+								id: id,
+								url: url,
+								extras: {
+									category_id: categoryid
+								},
+								waiting: {
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								}
+							});
+						});
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+			//获取轮播图 
+			function lunBo() {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/index&token='+localStorage.getItem('token'), {
+					data: {},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+//						console.log("轮播图："+JSON.stringify(data));
+//						return false;
+						if(JSON.stringify(data) != "{}") {
+							var html = '';
+							var length = data.adv_list.length;
+							var j = length - 1; 
+							var moImg = data.adv_list[0].adv_image;
+							var moTitle = data.adv_list[0].adv_title; 
+							var moImg1 = data.adv_list[j].adv_image;
+							var moTitle1 = data.adv_list[j].adv_title;
+							var imgUrl = app.getServerUrl() + '/';
+							var str = '';
+							html += '<div class="mui-slider-item mui-slider-item-duplicate"><a data-type="' + data.adv_list[j].adv_id + '" data-id="' + data.adv_list[j].adv_url + '"><img src="' + imgUrl + moImg1 + '" class="lazy" alt="' + moTitle1 + '"></a></div>';
+							mui.each(data.adv_list, function(index, item) {
+								html += '<div class="mui-slider-item"><a data-type="' + item.adv_id + '" data-id="' + item.adv_url + '"><img src="' + imgUrl + item.adv_image + '" class="lazy" alt="' + item.adv_title + '"></a></div>';
+								if(index == 0) {
+									str += '<div class="mui-indicator mui-active"></div>';
+								} else {
+									str += '<div class="mui-indicator"></div>'; 
+								}
+							}); 
+	
+							html += '<div class="mui-slider-item mui-slider-item-duplicate"><a data-type="' + data.adv_list[0].adv_id + '" data-id="' + data.adv_list[0].adv_url + '"><img src="' + imgUrl + moImg + '" class="lazy" alt="' + moTitle + '"></a></div>';
+	
+							document.getElementById("lunbo").innerHTML = html;
+							document.getElementById("lunbo2").innerHTML = str; 
+							var gallery = mui('.mui-slider');
+							gallery.slider({
+								interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；
+							});
+						}
+						
+						mui('#lunbo').on('tap', '.mui-slider-item a', function() {
+							var id = this.getAttribute("data-id");
+							console.log(id);
+							if(id=='#'){
+								return false;
+							}else{
+								mui.openWindow({
+									id: 'goods_details',
+									url: 'goods_details.html', 
+									extras: { 
+										goods_id: id
+									},
+									waiting: { 
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							}
+							
+						})
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+						mui.toast(type); 
+					} 
+				}); 
+			}
+			
+			//限时秒杀
+			var imgUrl = app.getServerUrl() + '/'; 
+			function getLimite() {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/getMiaoShaList&token='+localStorage.getItem('token'), {
+					data: {
+						page: 1,
+						page_size: 2
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+//						console.log("限时秒杀:"+JSON.stringify(data.data));  
+//						return false;
+						var html = '';
+						mui.each(data.data,function(index, item) {
+							html += '<div class="con-left-bottomcon mui-pull-left" data-goodsid="'+item.goods_id+'" data-point="'+item.point_exchange_type+'">';
+							html += '<img src="' + imgUrl + item.picture.pic_cover + '" />';
+							html += '<p class="mui-ellipsis">' + item.goods_name + '</p>';
+							html += '<div class="con-left-bottomcon-bom">';
+							html += '<span class="red">&yen;'+item.promotion_price+'</span>';
+							html += '<span class="gray">&yen;'+item.price+'</span>';
+							html += '</div>';
+							if(index==1){ 
+								html +='<div class="ms-icon"><img src="images/limite4.png" /></div>';
+							}					
+							html += '</div>';
+						})
+						$("#limite").html(html);  
+						var now_time = (new Date()).getTime() / 1000;
+						var atimer = parseInt(data.data[0].end_time - now_time);
+
+						countDown(atimer, function(day, hour, minutes, seconds) {  
+	//						hour = day == 0 ? '0'+hour : parseInt(24 * day+hour);
+							if ((parseInt(24 * day)+parseInt(hour)) <= 9) {
+								hour = '0' + hour;
+							}
+							if(day>0){
+								hour=parseInt(24 * day)+parseInt(hour);
+							}
+							$('.t_h').html(hour);  
+							$('.t_m').html(minutes); 
+							$('.t_s').html(seconds);     
+						})   
+						
+						//商品详情
+						mui('#limite').on('tap', '.con-left-bottomcon', function() {
+							var goods_id = this.getAttribute("data-goodsid");
+							var point_exchange_type = this.getAttribute("data-point");
+							if(point_exchange_type==0){
+								mui.openWindow({
+									id: 'goods_details',
+									url: 'goods_details.html', 
+									extras: { 
+										goods_id: goods_id
+									},
+									waiting: { 
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							}else{
+								mui.openWindow({
+									id: 'goods_details1',
+									url: 'goods_details1.html', 
+									extras: { 
+										goods_id: goods_id
+									},
+									waiting: { 
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							}
+							
+						});
+						
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+						mui.toast(type); 
+					}
+				});
+			}
+			
+			//活动公告
+			function getNotice(){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/noticeIndex&token='+localStorage.getItem('token'), {
+					data: {
+						page: 1,
+						page_size: 1 ,
+						cart_id: 1
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+//						console.log(JSON.stringify(data));   
+						var html = '';
+						mui.each(data,function(index, item) {
+							html += '<p class="mui-ellipsis" data-newsid="'+item.topic_id+'">'+item.title+'</p>';
+						})
+						$("#notice").html(html);  
+						//详情
+						mui('.huodong').on('tap', 'p', function() {
+							var newsid = this.getAttribute("data-newsid");
+							mui.openWindow({
+								id: 'news_details',
+								url: 'news_details.html', 
+								extras: { 
+									aticle_id: newsid    
+								},
+								waiting: { 
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								}
+							});
+						});
+						mui('.huodong').on('tap', '.more', function() {
+							mui.openWindow({
+								id: 'news',
+								url: 'news.html', 
+								extras: { 
+								},
+								waiting: { 
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								}
+							});
+						});
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+						mui.toast(type);
+					}
+				});
+			}
+			//首页推荐
+			function getRecommend(){ 
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/recommendation&token='+localStorage.getItem('token'), {
+					data: {
+						page: page,
+						page_size: page_size
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+//						console.log("首页推荐:"+JSON.stringify(data.data));    
+						var html = '';
+						mui.each(data.data,function(index, item) {
+							html +='<div class="recommend-con mui-pull-left" data-goodsid="'+item.goods_id+'" data-point="'+item.point_exchange_type+'">';
+							html +='<img src="' + imgUrl + item.pic_cover + '" />';
+							html +='<div class="recommend-title mui-ellipsis-2">'+item.goods_name+'</div>';
+							html +='<div class="recommend-bottom">';
+							html +='<div class="recommend-bottom-top mui-clearfix">';
+							html +='<div class="hebin mui-pull-left">';
+							html +='<img src="images/hebin1.png" />';
+							html +='<div class="zhb">赠合币</div>';
+							html +='<div class="num">'+item.give_point+'</div>'; 
+							html +='</div>'; 
+							html +='<span class="mui-block mui-pull-right">已售: '+item.real_sales+'件</span>';
+							html +='</div>';
+							html +='<div class="recommend-bottom-bom mui-clearfix">';
+							html +='<span class="mui-block mui-pull-left red">&yen;'+item.promotion_price+'</span>';
+							html +='<span class="mui-block mui-pull-left gray">&yen;'+item.price+'</span>';
+							html +='<span class="mui-block mui-pull-right">剩余: '+item.stock+'件</span>';
+							html +='</div>';
+							html +='</div>'; 
+							if(item.is_new==1){ 
+								html +='<div class="xinpin"><img src="images/xinpin.png" style="width: 5rem; height: 5rem; border:none;"/></div>';
+							}
+							html +='</div>';
+						})
+						$(".recommend-list").html(html);  
+						
+						//商品详情
+						mui('.recommend-list').on('tap', '.recommend-con', function() {
+							var goods_id = this.getAttribute("data-goodsid");
+							var point_exchange_type = this.getAttribute("data-point");
+							if(point_exchange_type==0){
+								mui.openWindow({
+									id: 'goods_details',
+									url: 'goods_details.html', 
+									extras: { 
+										goods_id: goods_id
+									},
+									waiting: { 
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							}else{
+								mui.openWindow({
+									id: 'goods_details1',
+									url: 'goods_details1.html', 
+									extras: { 
+										goods_id: goods_id
+									},
+									waiting: { 
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							}
+						});
+						
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+			//楼层
+			function getAdvertising(){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/getAdvertising&token='+localStorage.getItem('token'),{
+					data:{
+						page_index:1,
+						page_size:4
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+//						console.log("楼层:"+JSON.stringify(data));  
+						var html='';
+						html+='<img src="'+ imgUrl + data[0].default_content+'" data-goodsid="'+data[0].ap_intro+'"><div class="limite-icon"><img src="images/limite1.png" /></div>';
+						$("#ad1").html(html);
+						mui('#ad1').on('tap', 'img', function() {
+//							var goods_id = this.getAttribute("data-goodsid");
+							mui.openWindow({
+								id: 'limite_time',
+								url: 'limite_time.html',  
+								extras: { 
+//									goods_id: goods_id 
+								}, 
+								waiting: { 
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								}
+							});
+						})
+						var html1=''; 
+						for(var i=1;i<data.length;i++){
+							html1 +='<div class="con-right-con">';
+							html1 +='<img src="'+ imgUrl + data[i].default_content+'" />';
+							html1 +='<div class="ms-icon1">';
+							html1 +='<img src="images/le'+i+'.png" />';
+							html1 +='</div>';
+							html1 +='</div>'; 
+						}
+						$(".ad2").html(html1);
+						mui('.ad2').on('tap', '.con-right-con', function() {
+//							var goods_id = this.getAttribute("data-goodsid");
+							mui.openWindow({
+								id: 'limite_time',
+								url: 'limite_time.html',  
+								extras: { 
+//									goods_id: goods_id 
+								},
+								waiting: { 
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								}
+							});
+						})
+						
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type);
+						console.log(type); 
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

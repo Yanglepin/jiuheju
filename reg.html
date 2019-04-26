@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>九和居-注册</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.mui-scroll-wrapper{
+				background: url(images/reg-bg.png) top center no-repeat;
+				background-size: 112%;
+			}
+			.login-bg{
+				margin-top: 2.5rem;
+			}
+			.login-bg .login-box .input-row input {
+			    width: 50%;
+			    padding-left:5px;
+			}
+			.login-bg .login-box {
+			    padding: 1rem 0px 5rem 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="mui.back()"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="login-bg">
+				<div class="login-box">
+					<div class="input-row">
+						<input type="number" id="phone" value="" placeholder="请输入手机号" autofocus="autofocus"/>
+						<img src="images/phone.png" class="mui-pull-right phone" />
+					</div>
+					<div class="input-row mui-clearfix">
+						<input type="number" id="phoneCode" value="" placeholder="请输入短信验证码" style="width: 65%;"/>
+						<a><span class="mui-pull-right yzm" id="btnSendCode">获取</span></a>
+						<input type="hidden" id="seed_code" value="1" />
+					</div>
+					<div class="input-row mui-clearfix">
+						<input type="password" id="pwd" value="" placeholder="请输入密码"/>
+						<img src="images/pwd.png" class="mui-pull-right pwd" />
+					</div>
+					<div class="login-btn" id="reg">
+						<span class="mui-text-center">提交</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/yzm.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function(){
+				document.getElementById("btnSendCode").addEventListener('tap', function(event) {
+					var seed_code = $('#seed_code').val();
+					if(seed_code == 0) {
+						return false;
+					}
+					var phoneBox = $('#phone').val();
+//					console.log(phoneBox);
+					var status = checkMobile(phoneBox);  //验证输入的手机号是否正确
+					if(status == false) {
+						return false;
+					}
+					sendMessage(); 
+					mui.ajax(app.getServerUrl() + '/index.php?s=/api/login/send_code', {
+						data: {
+							mobile: phoneBox 
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型 
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(res) {
+//										var res = JSON.parse(res);  
+							if(res.code = 200) {
+								mui.toast('验证码获取成功请在2分钟内使用'); 
+							} else {
+								mui.toast('验证码获取失败，请重新获取');
+							}
+						}, 
+						error: function(xhr, type, error) {
+							console.log(type);
+							mui.toast(type); 
+						}
+					});
+				});
+				
+				//监听注册按钮
+				document.getElementById("reg").addEventListener('tap', function(event) {
+					var phone = document.getElementById("phone").value; //手机号
+					var phoneCode = document.getElementById("phoneCode").value; //验证码
+					var pwd = document.getElementById("pwd").value; //密码
+					
+//					console.log(phone);
+//					console.log(phoneCode);
+//					console.log(pwd);
+
+					if(phoneCode == '') {
+						mui.toast("手机验证码不能为空");
+						return false;
+					}
+					if(phoneCode.length != 6) {
+						mui.toast('手机验证码为6位!');
+						return false;
+					}
+					if(pwd.length <=0) {
+						mui.toast('密码不能为空！');
+						return false;
+					}
+					
+					mui.ajax(app.getServerUrl() + '/index.php?s=/api/login/design', {
+						data: {
+							mobile: phone,//手机号
+							code: phoneCode,//短信验证码
+							password:pwd// 密码
+						},
+						dataType: 'json', //服务器返回json格式数据 
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							console.log(JSON.stringify(data));
+							if(data.code==200) {
+								mui.toast(data.message);
+								//跳转登录页面中心
+								mui.back();
+								/*mui.openWindow({
+									url: 'login.html',
+									id: 'login'
+								});*/
+							}else{
+								mui.toast(data.message);
+							}
+						},
+						error: function(xhr, type, errthrow) {
+							console.log(JSON.stringify(errthrow));
+							mui.toast('服务器错误，请稍后重试');
+						}
+					});
+				});
+				
+				
+			})
+			
+			//验证手机号码传入手机号码的值即可使用
+			function checkMobile(phone) {
+				if(phone.length <= 0) {
+					mui.toast('手机号码不能为空');
+					return false;
+				}
+
+				if(!(/^1[3|4|5|7|8|9][0-9]\d{4,8}$/.test(phone))) {
+					mui.toast('手机号格式不正确');
+					return false;
+				}
+
+				return true;
+			}
+		</script>
+	</body>
+
+</html>

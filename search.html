@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>九和居-搜索</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			
+			.mui-title input {
+				height: 30px;
+				color: #333333;
+				border-radius: 5px;
+				padding-left: 10px;
+				width: 95%;
+				background: #fff !important;
+				margin-left: -6%;
+			}
+			
+			input[type=search] {
+				font-size: 15px;
+				color: #333333;
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+				text-align: left !important;
+				border: 1px solid #ccc;
+				border-radius: 6px;
+				background-color: rgba(0, 0, 0, .1);
+			}
+			.search-top{
+				background-color: #f0f1f2;
+				border-bottom: 1px solid #ccc;
+			}
+			.search-title{
+				background-color: #f0f1f2;
+			}
+			.xinpin{
+				position: absolute;   
+				top: 5%;
+				left: 8%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="mui.back()"></a>
+			<h1 class="mui-title"><input type="search" pattern="\d*"/ placeholder="请输入搜索内容" value="" id="sear_name"></h1>
+			<a><span class="mui-icon mui-pull-right" id="search" style="font-size: 15px;margin-top: 1.5%;">搜索</span></a>
+		</header>
+		<div class="mui-content mui-scroll-wrapper recommend">
+			<!--<div class="search-top">
+				<p>无搜索结果”<span>老式经典沙发</span> ”</p>
+			</div>
+			<div class="search-title">系统为您推荐以下产品:</div>
+			<div class="recommend-list mui-clearfix">
+				<div class="recommend-con mui-pull-left">
+					<img src="images/banner.png" />
+					<div class="recommend-title mui-ellipsis-2">九和居 北欧小户型布艺沙发 组合沙发 日式客厅家具 三人位</div>
+					<div class="recommend-bottom">
+						<div class="recommend-bottom-top mui-clearfix">
+							<div class="hebin mui-pull-left">
+								<img src="images/hebin1.png" />
+								<div class="zhb">赠合币</div>
+								<div class="num">30</div>
+							</div>
+							<span class="mui-block mui-pull-right">已售: 24件</span>
+						</div>
+						<div class="recommend-bottom-bom mui-clearfix">
+							<span class="mui-block mui-pull-left red">￥1590</span>
+							<span class="mui-block mui-pull-left gray">￥1999</span>
+							<span class="mui-block mui-pull-right">剩余: 76件</span>
+						</div>
+					</div>
+					<div class="xinpin"><img src="images/xinpin.png" style="width: 5rem; height: 5rem; border:none;"/></div>
+				</div>
+				
+				<div class="recommend-con mui-pull-left">
+					<img src="images/banner.png" />
+					<div class="recommend-title mui-ellipsis-2">九和居 北欧小户型布艺沙发 组合沙发 日式客厅家具 三人位</div>
+					<div class="recommend-bottom">
+						<div class="recommend-bottom-top mui-clearfix">
+							<div class="hebin mui-pull-left">
+								<img src="images/hebin1.png" />
+								<div class="zhb">赠合币</div>
+								<div class="num">30</div>
+							</div>
+							<span class="mui-block mui-pull-right">已售: 24件</span>
+						</div>
+						<div class="recommend-bottom-bom mui-clearfix">
+							<span class="mui-block mui-pull-left red">￥1590</span>
+							<span class="mui-block mui-pull-left gray">￥1999</span>
+							<span class="mui-block mui-pull-right">剩余: 76件</span>
+						</div>
+					</div>
+				</div>
+				
+			</div>-->
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+		<script type="text/javascript" src="js/app.js" ></script>
+		<script>
+			mui.init(); 
+			var page = 1,
+			page_size = 2; 
+			var imgUrl = app.getServerUrl() + '/'; 
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				sear_name = self.sear_name;
+				$("#sear_name").val(sear_name);
+				getSearch(sear_name);
+				document.getElementById('search').addEventListener('tap', function() {
+					sear_name = document.getElementById("sear_name").value;
+					getSearch(sear_name);
+				});
+			})
+			//搜索内容
+			function getSearch(sear_name){
+				var sear_name = document.getElementById("sear_name").value;
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/goodssearchList&token='+localStorage.getItem('token'),{
+					data:{
+						page: page,
+						page_size: page_size,
+						sear_name: sear_name
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(JSON.stringify(data)); 
+						var html = '';
+						if(data.total_count==0){
+							getRecommend();
+						}else{
+							html +='<div class="search-title">系统为您推荐以下产品:</div>';
+							html +='<div class="recommend-list mui-clearfix">';
+							mui.each(data.data,function(index, item) {
+								html +='<div class="recommend-con mui-pull-left">';
+								html +='<img src="' + imgUrl + item.pic_cover + '" />';
+								html +='<div class="recommend-title mui-ellipsis-2">'+item.goods_name+'</div>';
+								html +='<div class="recommend-bottom">';
+								html +='<div class="recommend-bottom-top mui-clearfix">';
+								html +='<div class="hebin mui-pull-left">';
+								html +='<img src="images/hebin1.png" />';
+								html +='<div class="zhb">赠合币</div>';
+								html +='<div class="num">'+item.give_point+'</div>'; 
+								html +='</div>'; 
+								html +='<span class="mui-block mui-pull-right">已售: '+item.real_sales+'件</span>';
+								html +='</div>';
+								html +='<div class="recommend-bottom-bom mui-clearfix">';
+								html +='<span class="mui-block mui-pull-left red">&yen;'+item.promotion_price+'</span>';
+								html +='<span class="mui-block mui-pull-left gray">&yen;'+item.price+'</span>';
+								html +='<span class="mui-block mui-pull-right">剩余: '+item.stock+'件</span>';
+								html +='</div>';
+								html +='</div>';
+								if(item.is_new==1){
+									html +='<div class="xinpin"><img src="images/xinpin.png" style="width: 5rem; height: 5rem; border:none;"/></div>';
+								}
+								html +='</div>';
+							})
+							html +='</div>';
+							$(".recommend").html(html); 
+						}
+
+					},
+					error:function(xhr,type,errorThrown){
+						
+					}
+				});
+			}
+			//首页推荐
+			function getRecommend(){ 
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/recommendation&token='+localStorage.getItem('token'), {
+					data: {
+						page: page,
+						page_size: 8
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+//						console.log(JSON.stringify(data));   
+						var html = '';
+						html+='<div class="search-top">';
+						html +='<p>无搜索结果”<span>'+sear_name+'</span> ”</p>';
+						html +='</div>';
+						html +='<div class="search-title">系统为您推荐以下产品:</div>';
+						html +='<div class="recommend-list mui-clearfix">';
+						mui.each(data.data,function(index, item) {
+							html +='<div class="recommend-con mui-pull-left">';
+							html +='<img src="' + imgUrl + item.pic_cover + '" />';
+							html +='<div class="recommend-title mui-ellipsis-2">'+item.goods_name+'</div>';
+							html +='<div class="recommend-bottom">';
+							html +='<div class="recommend-bottom-top mui-clearfix">';
+							html +='<div class="hebin mui-pull-left">';
+							html +='<img src="images/hebin1.png" />';
+							html +='<div class="zhb">赠合币</div>';
+							html +='<div class="num">'+item.give_point+'</div>'; 
+							html +='</div>'; 
+							html +='<span class="mui-block mui-pull-right">已售: '+item.real_sales+'件</span>';
+							html +='</div>';
+							html +='<div class="recommend-bottom-bom mui-clearfix">';
+							html +='<span class="mui-block mui-pull-left red">&yen;'+item.promotion_price+'</span>';
+							html +='<span class="mui-block mui-pull-left gray">&yen;'+item.price+'</span>';
+							html +='<span class="mui-block mui-pull-right">剩余: '+item.stock+'件</span>';
+							html +='</div>';
+							html +='</div>';
+							if(item.is_new==1){ 
+								html +='<div class="xinpin"><img src="images/xinpin.png" style="width: 5rem; height: 5rem; border:none;"/></div>';
+							}
+							html +='</div>';
+						})
+						html +='</div>';
+						$(".recommend").html(html);  
+						
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>提现</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app1.css" />
+	</head>
+
+	<body style="background: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">提现</h1>
+			<a class="mui-icon mui-pull-right" style="font-size: 14px;padding-top: 5%;color: #666666;" id="mingxi">明细></a>
+		</header>
+		<div class="mui-content">
+			<div class="ti">
+				<div class="ti1">
+					<p style="font-size: 18px;color: #333;margin-bottom: 15px;">可提现金额</p>
+					<p style="font-size: 18px;color: #333;">&yen;<span style="font-size: 25px;margin-left: 2%;color: #333;" id="balance">0.00</span></p>
+					<p>(最低提现额50元)</p>
+				</div>
+			</div>
+			<div class="yl">
+				<div class="tixian" style="border-right: 1px solid #d9d9d9;">
+					<p style="color: #333;font-size: 18px;" id="total">
+						<img src="images/v2.png" /> 0.00元
+					</p>
+					<p>
+						<span>总金额</span>
+					</p>
+				</div>
+				<div class="tixian">
+					<p style="color: #333;font-size: 18px;" id="shen">
+						<img src="images/v2.png" /> 0.00元
+					</p>
+					<p>
+						<span>审核中的金额</span>
+					</p>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<div class="tian">
+				<p class="shen">
+					<span>申请提现</span>
+				</p>
+				<div style="clear: both;"></div>
+			</div>
+			<div class="zhanghu">
+				<div class="er1" style="background: url(images/c7.png) 10px no-repeat; background-size: 7%;" data-id="tixianjilu" data-url="tixianjilu.html">
+					<a href="javascript:void(0)"><span style="font-size: 15px;">提现记录</span><span style="float: right;color: #888888;font-size: 18px;">></span></a>
+				</div>
+				<div class="er1" style="background: url(images/c6.png) 10px no-repeat; background-size: 7%;" data-id="tixianzhanghu" data-url="tixianzhanghu.html">
+					<a href="javascript:void(0)"><span style="font-size: 15px;">提现账户</span><span style="float: right;color: #888888;font-size: 18px;">></span></a>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				document.getElementById("mingxi").addEventListener('tap', function(event) {
+					mui.openWindow({
+						id: 'yuemingxi',
+						url: 'yuemingxi.html',  
+						extras: { 
+						
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				});
+				
+				//提现记录   提现账户
+				mui('.zhanghu').on('tap','.er1',function(){
+					var id = this.getAttribute("data-id");
+					var url = this.getAttribute("data-url");
+					mui.openWindow({
+						id: id,
+						url: url,
+						extras: { 
+
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				})
+				//提现金额
+				getCount();
+			}) 
+			
+			function getCount(){
+				mui.ajax(app.getServerUrl() +'/index.php?s=/api/member/myBalance&token='+localStorage.getItem('token'),{
+					data:{
+						
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+//						console.log("提现："+JSON.stringify(data)); 
+						$("#balance").html(data.balance);
+						$("#shen").html('<img src="images/v2.png" />'+data.shen); 
+						$("#total").html('<img src="images/v2.png" />'+data.total);
+						//申请提现
+						mui('.tian').on('tap','.shen',function(){
+							if(data.balance<50){
+								mui.toast("可提现金额小于50！");
+								return false;
+							}else{
+								mui.openWindow({
+									id: 'tixianye',
+									url: 'tixianye.html',
+									extras: { 
+			
+									},
+									waiting: {
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							}
+						})
+						
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

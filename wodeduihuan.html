@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我兑换的商品</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link href="css/app1.css" rel="stylesheet" />
+		<style>
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #036342;
+				border-bottom: 2px solid #036342;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">我兑换的商品</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="refreshContainer">
+			<div id="sliderControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+				<a class="mui-control-item mui-active" href="#itemall" data-status="all">全部商品</a>
+				<a class="mui-control-item" href="#item0" data-status="0">已兑换</a>
+				<a class="mui-control-item" href="#item1" data-status="1">已配送</a>
+			</div>
+			<div class="mui-slider-group">
+				<div id="itemall" class="mui-slider-item mui-control-content mui-active">
+					<!--<ul class="mui-table-view">-->
+						<!--<div class="biaodan">
+							<div class="quan">
+								<div class="danhao">
+									<p>订单号:21542141245154<span style="float: right;color:#036342">已兑换</span></p>
+								</div>
+							</div>
+							<div class="tong">
+								<div class="zuo">
+									<img src="images/v3.png">
+								</div>
+								<div class="you">
+									<p>九和居 北欧小户型布艺沙发 组合沙发 日式客厅家具 三人位</p>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							<div class="shi">
+								<p>2019-03-15 10:35:26<span style="float: right;color: #f80219;">元币:1590</span></p>
+							</div>
+						</div>
+						<div class="biaodan">
+							<div class="quan">
+								<div class="danhao">
+									<p>订单号:21542141245154<span style="float: right;color:#036342">申请中</span></p>
+								</div>
+							</div>
+							<div class="tong">
+								<div class="zuo">
+									<img src="images/v3.png">
+								</div>
+								<div class="you">
+									<p>九和居 北欧小户型布艺沙发 组合沙发 日式客厅家具 三人位</p>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							<div class="shi">
+								<p>2019-03-15 10:35:26<span style="float: right;color: #f80219;">元币:1590</span></p>
+							</div>
+						</div>-->
+					<!--</ul>-->
+
+				</div>
+				<div id="item0" class="mui-slider-item mui-control-content">
+
+				</div>
+				<div id="item1" class="mui-slider-item mui-control-content">
+
+				</div>
+			</div>
+			<input type="hidden" value="all" id="status_val"/>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+		<script type="text/javascript" src="js/app.js" ></script>
+		<script type="text/javascript">
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					down: {
+						style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+						auto: true,
+						callback: push_down //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: false, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pull_up //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+			var page = 1;
+			var page_size = 15;  
+			var page_total = 1; 
+			var imgUrl = app.getServerUrl() + '/';
+			mui.plusReady(function(){
+				var status = 'all';
+				mui('#sliderControl').on('tap', 'a', function() {
+					mui('#refreshContainer').pullRefresh().refresh(true);
+					var status = this.getAttribute("data-status");
+//					console.log(status);
+					mui("#status_val")[0].value = status;
+					myexchangeOrderList(status);
+				});
+				//我兑换的商品
+//				myexchangeOrderList(status); 
+			})
+			//我兑换的商品
+			function myexchangeOrderList(status){  
+				console.log(status);
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/order/myexchangeOrderList&token='+localStorage.getItem('token'),{
+					data:{
+						page: page,
+						page_size: page_size,
+						status: status
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log("我兑换的商品："+JSON.stringify(data.data));  
+						var html = ''; 
+					
+						if(data.total_count>0){  
+							html+='<ul class="mui-table-view">';
+							mui.each(data.data,function(index,item){ 
+								mui.each(item.order_item_list,function(ix,im){ 
+									html+='<div class="biaodan" data-orderid="'+item.order_id+'">';
+									html+='<div class="quan"><div class="danhao">';
+									html+='<p>订单号:'+item.order_no+'';
+									if(item.order_status==0){
+										html+='<span style="float: right;color:#036342">已兑换</span>';
+									}
+									html+='</p></div></div>';
+									html+='<div class="tong"><div class="zuo">';
+									html+='<img src="'+imgUrl+im.picture.pic_cover+'"></div>'; 
+									html+='<div class="you"><p class="mui-ellipsis-2">'+im.goods_name+'</p></div>';
+									html+='<div style="clear: both;"></div>';
+									html+='</div><div class="shi">';
+									html+='<p>'+app.timestamptotime(item.create_time)+'<span style="float: right;color: #f80219;">元币:'+item.point+'</span></p>';
+									html+='</div></div>'; 
+								})
+								
+							})
+							html +='</ul>';
+							page_total = data.page_count;
+//							console.log("总页数："+page_total);
+							if(page == 1){ 
+//								console.log("1当前页: "+page); 
+								$("#item"+status+"").html(html); 
+							}else if(page<=page_total){
+								$("#item"+status+"").append(html);
+								mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+								return false;
+							}else{
+								mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+							return false;
+							}
+						}else{
+							html= '<div style="text-align: center;"><img src="noresult.png" style="width:35%;"></div>';
+							$("#item"+status+"").html(html); 
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+							return false;
+						}
+						//商品详情
+						mui('.mui-table-view').on('tap', '.biaodan', function() {
+							var order_id = this.getAttribute("data-orderid");
+							mui.openWindow({
+								id: 'duihuanxiangqing',
+								url: 'duihuanxiangqing.html', 
+								extras: { 
+									order_id: order_id,
+									status: status
+								},
+								waiting: { 
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								}
+							});
+						});					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+					}
+				});
+			}
+			
+			//上拉加载
+			function pull_up() {  
+				page++;
+				var status = document.getElementById("status_val").value;
+				myexchangeOrderList(status);
+			} 
+			//下拉刷新
+			function push_down() { 
+				mui('#refreshContainer').pullRefresh().refresh(true);
+				page = 1;
+				var status = document.getElementById("status_val").value;
+				myexchangeOrderList(status);
+				mui('#refreshContainer').pullRefresh().endPulldown();
+			}
+		</script>
+	</body>
+</html>

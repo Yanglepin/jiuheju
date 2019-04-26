@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>余额明细</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app1.css" />
+	</head>
+	<body style="background: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">余额明细</h1>
+		</header>
+		<div class="mui-content" id="refreshContainer">
+			<div class="lie1">
+				<li style="padding-left: 0px;">
+					<!--<div class="details_title clearfix">
+						<span>渠道/日期</span>
+						<span style="float: right;">金额/余额</span>
+					</div>-->
+					
+					<!--<div class="huan">
+					  <div class="xi1">
+					  	   <p class="hei">提现</p>
+					  	   <p>2019-3-02 10:35:30</p>
+					  	   <div style="clear: both;"></div>
+					  </div>
+					  <div class="xi2">
+					  	  <span style="color: #ee0303;">+100</span>
+					  	  <div style="clear: both;"></div>
+					  </div>
+					  <div style="clear: both;"></div>
+					</div>
+					-->
+					
+				</li>
+
+			</div>
+			
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					down: {
+						style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+						auto: true,
+						callback: push_down //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: false, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pull_up //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+			var page = 1;
+			var page_size = 15;
+			var page_total = 1; 
+			var imgUrl = app.getServerUrl() + '/';
+			mui.plusReady(function() {
+//				myCollection();
+			})
+			function pull_up() {
+				//console.log(11);
+				page = page + 1;
+				if(page > page_total) {
+					mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+					return false;
+				}
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/getCommisionList&token=' + localStorage.getItem('token'), {
+					data: {
+						page_index: page,
+						page_size: page_size 
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						if(data.code == 0) {
+							page = page - 1;
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+							return false;
+						}
+						var html = '';
+//						console.log(JSON.stringify(data));
+						html+='<div class="details_title clearfix"><span>渠道/日期</span><span style="float: right;">金额/余额</span></div>';
+						if(data.total_count == 0) {
+							html += '<div style="text-align: center;"><img src="noresult.png"></div>';
+						} else {
+							mui.each(data, function(index, item) {
+								html+='<div class="huan">';
+								html+='<div class="xi1">';
+								html+='<p class="hei">'+item.text+'</p>';
+								html+='<p>'+app.timestamptotime(item.create_time)+'</p>';
+								html+='<div style="clear: both;">';
+								html+='</div></div>';
+								html+='<div class="xi2">';
+								html+='<span style="color: #ee0303;">'+item.number+'</span>';
+								html+='<div style="clear: both;"></div>';
+								html+='</div>';
+								html+='<div style="clear: both;"></div>';
+								html+='</div>';
+							});
+						}
+						page_total = lists['page_count'];
+						$('.lie1 li').append(html);
+						mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+						mui.toast('服务器错误，稍后重试');
+					}
+				});
+			}
+
+			function push_down() {
+				page = 1;
+				mui('#refreshContainer').pullRefresh().refresh(true);
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/getCommisionList&token=' + localStorage.getItem('token'), {
+					data: {
+						page_index: page,
+						page_size: page_size
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {  
+//						console.log("余额明细：" + JSON.stringify(data));
+						var html = '';
+						html+='<div class="details_title clearfix"><span>渠道/日期</span><span style="float: right;">金额/余额</span></div>';
+						if(data.total_count == 0) {
+							html += '<div style="text-align: center;"><img src="noresult.png"></div>';
+						} else {
+							mui.each(data.data, function(index, item) {
+								html+='<div class="huan">';
+								html+='<div class="xi1">';
+								html+='<p class="hei">'+item.type_name+'</p>';
+								html+='<p>'+item.create_time+'</p>';
+								html+='<div style="clear: both;">';
+								html+='</div></div>';
+								html+='<div class="xi2">';
+								html+='<span style="color: #ee0303;">'+item.account_type_name+'</span>';
+								html+='<div style="clear: both;"></div>';
+								html+='</div>';
+								html+='<div style="clear: both;"></div>';
+								html+='</div>';
+							});
+						}
+						$('.lie1 li').html(html);
+						mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast('服务器错误，稍后重试');
+						mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					}
+				});
+
+			}
+		</script>
+	</body>
+
+</html>

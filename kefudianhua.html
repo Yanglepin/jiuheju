@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>客服电话</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app1.css" />
+	</head>
+
+	<body style="background: #fff;"> 
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">客服电话</h1>
+		</header>
+		<div class="mui-content">
+			<div class="jieshao" style="font-size: 1.5rem;">
+				
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/getPlatformInfo&token='+localStorage.getItem('token'),{
+					data:{
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(JSON.stringify(data)); 
+//						data.content = data[0].content.replace(/\/upload\//g, app.getServerUrl() + "/upload/");
+						
+						$(".jieshao").html("客服电话："+data.web_phone);
+						return false;
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						mui.toast(type);
+					}
+				});
+			})
+		</script>
+	</body>
+
+</html>

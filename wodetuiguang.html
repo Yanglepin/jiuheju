@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的推广</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app1.css" />
+	</head>
+
+	<body style="background: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">我的推广</h1>
+		</header>
+		<div class="mui-content">
+			<div class="tui">
+				<div class="m-list">
+					<div class="row mui-clearfix">
+						<div class="col4 mui-pull-left">
+							<div class="guang">
+								<span>团队</span>
+								<img src="images/c2.png" />
+							</div>
+							<div class="wen people">
+								<!--<span>人数:124人</span>-->
+							</div>
+						</div>
+
+						<div class="col4 mui-pull-left">
+							<div class="guang">
+								<span>佣金</span>
+								<img src="images/c3.png" />
+							</div>
+							<div class="wen">
+								<span>&yen;3480.00</span>
+								<span style="background: #036342;padding:2% 5%;color: #fff;border-radius: 4px;font-size: 15px;">提现</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="height: 100px;background: #fff;border-bottom: 5px solid #eaeaea;"></div>
+		<div class="tuiguang-list">
+			<div class="lie" data-id="zhitui" data-url="zhitui.html">
+				<span>直推的人</span><span style="float: right;color: #666666;">></span>
+			</div>
+			<div class="lie" style="background: #faf9f9;" data-id="tuandui" data-url="tuandui.html">
+				<span>团队的人</span><span style="float: right;color: #666666;">></span>
+			</div>
+			<div class="lie" data-id="yongjin" data-url="yongjin.html">
+				<span>分享佣金</span><span style="float: right;color: #666666;">></span>
+			</div>
+			<div class="lie" style="background: #faf9f9;" data-id="erweima" data-url="erweima.html">
+				<span>推广二维码</span><span style="float: right;color: #666666;">></span>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+		<script type="text/javascript" src="js/mui.min.js" ></script>
+		<script type="text/javascript" src="js/app.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function(){
+				getPeople();//团队人数
+				mui('.tuiguang-list').on('tap','.lie',function(){
+					var id = this.getAttribute("data-id");
+					var url = this.getAttribute("data-url"); 
+					mui.openWindow({
+						id: id, 
+						url: url,
+						extras: { 
+
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				})
+				
+			})
+			function getPeople(){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/childCommissionPerson1&token=' + localStorage.getItem('token'), {
+					data: {
+						page_index: 1,
+						page_size: 1
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log("我的团队：" + JSON.stringify(data));
+						var html ='';
+						html +='<span>人数:'+data.total_count+'人</span>';
+						$(".people").html(html);
+
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast('服务器错误，稍后重试');
+
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

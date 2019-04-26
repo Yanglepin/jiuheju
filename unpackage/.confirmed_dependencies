@@ -1,0 +1,212 @@
+{
+  "reg.html": {
+    "refer": [
+      "login.html"
+    ],
+    "resources": []
+  },
+  "index.html": {
+    "refer": [
+      "news.html",
+      "news_details.html",
+      "search.html",
+      "limite_time.html",
+      "goods_sort.html",
+      "goods_details.html",
+      "goods_details1.html",
+      "hebiduihuan.html",
+      "goods_list.html",
+      "erweima.html",
+      "erwei.html"
+    ],
+    "resources": []
+  },
+  "main.html": {
+    "resources": [
+      "index.html",
+      "wode.html"
+    ],
+    "refer": [
+      "index.html",
+      "goods_sort.html",
+      "wode.html",
+      "shopping_cart.html"
+    ]
+  },
+  "login.html": {
+    "refer": [
+      "index.html",
+      "reg.html",
+      "pwd_back.html",
+      "main.html"
+    ],
+    "resources": [
+      "images/phone.png",
+      "js/app.js",
+      "images/pwd.png",
+      "css/app.css",
+      "js/yzm.js",
+      "js/jquery-3.3.1.min.js",
+      "images/wechat.png"
+    ]
+  },
+  "wode.html": {
+    "refer": [
+      "tuichu.html",
+      "address_message.html",
+      "shoucang.html",
+      "wodetuiguang.html",
+      "shengji.html",
+      "tixianjilu.html",
+      "wodehebi.html",
+      "tixian.html",
+      "kefudianhua.html",
+      "my_order.html",
+      "pay_success.html",
+      "goods_list.html"
+    ]
+  },
+  "tuichu.html": {
+    "refer": [
+      "pwd_update.html",
+      "login.html",
+      "guanyuwomen.html"
+    ]
+  },
+  "pwd_update.html": {
+    "refer": [
+      "login.html"
+    ]
+  },
+  "goods_sort.html": {
+    "refer": [
+      "goods_list.html"
+    ]
+  },
+  "goods_list.html": {
+    "refer": [
+      "goods_details.html",
+      "goods_details1.html"
+    ]
+  },
+  "goods_details.html": {
+    "refer": [
+      "goods_details1.html",
+      "shopping_cart.html",
+      "order_q.html",
+      "shopping_cart1.html",
+      "gouwuche.html"
+    ]
+  },
+  "address_message.html": {
+    "refer": [
+      "address_add.html",
+      "order_q.html",
+      "address_update.html"
+    ]
+  },
+  "shopping_cart.html": {
+    "refer": [
+      "order_q.html",
+      "order_q1.html",
+      "goods_sort.html",
+      "goods_list.html"
+    ]
+  },
+  "order_q.html": {
+    "refer": [
+      "address_message.html",
+      "pay_order.html"
+    ]
+  },
+  "order_q1.html": {
+    "refer": [
+      "address_message.html",
+      "pay_order.html"
+    ]
+  },
+  "wodehebi.html": {
+    "refer": [
+      "goods_list.html",
+      "hebiduihuan.html",
+      "wodeduihuan.html"
+    ]
+  },
+  "tixian.html": {
+    "refer": [
+      "yuemingxi.html",
+      "tixianjilu.html",
+      "tixianzhanghu.html",
+      "tixianye.html"
+    ]
+  },
+  "news.html": {
+    "refer": [
+      "news_details.html",
+      "news_details1.html"
+    ]
+  },
+  "goods_details1.html": {
+    "refer": [
+      "order_q.html",
+      "pay_order1.html"
+    ]
+  },
+  "hebiduihuan.html": {
+    "refer": [
+      "goods_details1.html"
+    ]
+  },
+  "shengji.html": {
+    "refer": [
+      "pay_order.html"
+    ]
+  },
+  "shopping_cart1.html": {
+    "refer": [
+      "order_q1.html"
+    ]
+  },
+  "limite_time.html": {
+    "refer": [
+      "goods_details.html"
+    ]
+  },
+  "wodetuiguang.html": {
+    "refer": [
+      "erweima.html",
+      "zhitui.html",
+      "address_message.html",
+      "tuandui.html",
+      "yongjin.html"
+    ]
+  },
+  "my_order.html": {
+    "refer": [
+      "querenzhifu.html",
+      "querenzhifu_details.html",
+      "replacement.html"
+    ]
+  },
+  "querenzhifu.html": {
+    "refer": [
+      "pay_order.html"
+    ]
+  },
+  "wodeduihuan.html": {
+    "refer": [
+      "duihuanxiangqing.html"
+    ]
+  },
+  "pay_order1.html": {
+    "refer": [
+      "wodeduihuan.html"
+    ]
+  },
+  "gouwuche.html": {
+    "refer": [
+      "goods_list.html",
+      "order_q1.html"
+    ]
+  }
+}

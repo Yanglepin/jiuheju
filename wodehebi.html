@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的合币</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+				color: initial;
+				border-bottom: none;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item span{
+				display: inline-block;
+				line-height: 38px;
+				color: #999;
+				font-size: 1.4rem;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active span{
+				color: #333;
+				border-bottom: 3px solid #646464;
+			}
+			.mui-slider-group{
+				width: 100%;
+				background-color: #f3f3f3;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">我的合币</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="refreshContainer">
+			<div class="hebi-top">
+				<div class="current-hb">
+					<p>当前合币</p>
+					<span><img src="images/hb1.png">240</span>
+				</div>
+				<div class="daozhang mui-clearfix">
+					<div class="today mui-pull-left">
+						<p>今日到账</p>
+						<span><img src="images/hb2.png">240</span>
+					</div>
+					<div class="leiji mui-pull-left">
+						<p>累计到账</p>
+						<span><img src="images/hb3.png">240</span>
+					</div>
+				</div>
+			</div> 
+			<div class="hebi-con mui-clearfix">
+				<div class="img-box mui-pull-left"><img src="images/hb-list1.png"  data-id="goods_list" data-url="goods_list.html"></div>
+				<div class="img-box mui-pull-left"><img src="images/hb-list2.png" data-id="hebiduihuan" data-url="hebiduihuan.html"></div>
+				<div class="img-box mui-pull-left"><img src="images/hb-list3.png" data-id="wodeduihuan" data-url="wodeduihuan.html"></div>
+			</div>
+			
+			<div class="hebi-list">
+				<div id="sliderControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-clearfix">
+					<a class="mui-control-item mui-pull-left mui-active" href="#item0" data-status="0"><span>今日到账</span></a>
+					<a class="mui-control-item mui-pull-right" href="#item1" data-status="1"><span>累计到账</span></a>
+				</div>
+				<div class="mui-slider-group" id="segmentedControlContents">
+					<div id="item0" class="mui-slider-item mui-control-content mui-active">
+						<!--<div class="list-con">
+							<div class="list-tit">
+								<span>日期</span>
+								<span>金额</span>
+								<span>渠道</span>
+							</div>
+							<div class="list-list mui-clearfix">
+								<span class="mui-pull-left mui-ellipsis">2019-03-03  10:31</span>
+								<span class="mui-pull-left mui-ellipsis">+2.50</span>
+								<span class="mui-pull-left mui-ellipsis">浏览商品</span>
+							</div>
+							<div class="list-list mui-clearfix">
+								<span class="mui-pull-left mui-ellipsis">2019-03-03  10:31</span>
+								<span class="mui-pull-left mui-ellipsis">+2.50</span>
+								<span class="mui-pull-left mui-ellipsis">浏览商品</span>
+							</div>
+							<div class="list-list mui-clearfix">
+								<span class="mui-pull-left mui-ellipsis">2019-03-03  10:31</span>
+								<span class="mui-pull-left mui-ellipsis">+2.50</span>
+								<span class="mui-pull-left mui-ellipsis">浏览商品</span>
+							</div>
+						</div>-->
+					</div>
+					<div id="item1" class="mui-slider-item mui-control-content">
+						<!--<div class="list-con">-->
+							<!--<div class="list-tit">
+								<span>日期</span>
+								<span>金额</span>
+								<span>渠道</span>
+							</div>
+							<div class="list-list mui-clearfix">
+								<span class="mui-pull-left mui-ellipsis">2019-03-03  10:31</span>
+								<span class="mui-pull-left mui-ellipsis">+2.50</span>
+								<span class="mui-pull-left mui-ellipsis">浏览商品</span>
+							</div>-->
+						<!--</div>-->
+
+					</div>
+				</div> 
+			</div>
+		</div>
+		<input type="hidden" value="0" id="status_val"/>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+		<script type="text/javascript" src="js/mui.min.js" ></script>
+		<script type="text/javascript" src="js/app.js" ></script>
+		<script>
+			mui.init();
+			mui.plusReady(function(){
+				//当前合币
+				getCurrentHb();
+				//合币明细
+				getDetailsHb();
+				//合币列表
+				getHebiList(0);
+				mui('#sliderControl').on('tap', 'a', function() {
+//					mui('#refreshContainer').pullRefresh().refresh(true);
+					var status = this.getAttribute("data-status");
+					mui("#status_val")[0].value = status;
+//					console.log(status);
+					getHebiList(status);
+				});
+				mui('.hebi-con').on('tap', 'img', function() {
+					var id = this.getAttribute("data-id");
+					var url = this.getAttribute("data-url");
+					mui.openWindow({
+						id: id,
+						url: url,
+						extras: { 
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				})
+			})
+			//当前合币
+			function getCurrentHb(){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/memberPoint&token=' + localStorage.getItem('token'),{
+					data:{
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log("当前合币:"+JSON.stringify(data));
+						var html =''; 
+						if(data.code>0){
+							html+='<p>当前合币</p><span><img src="images/hb1.png">'+data.point+'</span>';
+						}
+						$(".current-hb").html(html);
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+			//合币详情
+			function getDetailsHb(){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/memberPointdetail&token=' + localStorage.getItem('token'),{
+					data:{
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+//						console.log("合币详情:"+JSON.stringify(data));
+						var html ='';
+						html+='<div class="today mui-pull-left">';
+						html+='<p>今日到账</p><span>';
+						if(!data.detail){
+							html+='<img src="images/hb2.png">'+data.todaynum+'</span>';
+						}else{
+							html+='<img src="images/hb2.png">0</span>';
+						}
+						html+='</div><div class="leiji mui-pull-left">';
+						html+='<p>累计到账</p><span>';
+						if(!data.detail){
+							html+='<img src="images/hb3.png">'+data.totalnum+'</span>';
+						}else{
+							html+='<img src="images/hb3.png">0</span>';
+						}
+						
+						html+='</div>';
+						$(".daozhang").html(html);
+						
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+			
+			function getHebiList(status){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/memberPointdetail&token=' + localStorage.getItem('token'),{
+					data:{
+						
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log("合币列表:"+JSON.stringify(data.detail));
+						var html = '';
+						html +='<div class="list-con"><div class="list-tit"><span>日期</span><span>金额</span><span>渠道</span></div>';
+						if(data.detail){
+							if(status==1){
+								mui.each(data.detail,function(index,item){
+									html+='<div class="list-list mui-clearfix">';
+									html+='<span class="mui-pull-left mui-ellipsis">'+app.timestamptotime(item.create_time)+'</span>';
+									html+='<span class="mui-pull-left mui-ellipsis">'+item.number+'</span>';
+									html+='<span class="mui-pull-left mui-ellipsis">'+item.text+'</span>';
+									html+='</div>';
+								})
+							} 
+							if(status==0){
+								if(data.detail.todaydatial){
+									mui.each(data.detail.todaydatial,function(index,item){
+										html+='<div class="list-list mui-clearfix">';
+										html+='<span class="mui-pull-left mui-ellipsis">'+app.timestamptotime(item.create_time)+'</span>';
+										html+='<span class="mui-pull-left mui-ellipsis">'+item.number+'</span>';
+										html+='<span class="mui-pull-left mui-ellipsis">'+item.text+'</span>';
+										html+='</div>';
+									})
+								}
+								
+							}  
+						}
+						html+='</div>';
+						$("#item"+status+"").html(html); 
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type);
+						console.log(type);	
+					}
+				});
+			}
+			
+		</script>
+	</body>
+
+</html>

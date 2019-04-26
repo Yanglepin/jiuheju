@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/mui.css" />
+		<link rel="stylesheet" href="css/app.css" />
+	</head>
+	<style>
+		body{
+			background-color: #ffffff;
+		}
+		span.kf,span.gw{
+			background-color: #de1c03;
+			color: #fff;
+			font-size: 12px;
+			position: absolute;
+			padding: 4px;
+			width: auto;
+			height: 1.5rem;
+			line-height: 0.8rem;
+			border-radius: 51.5%;
+			top: 5%;
+		}
+		span.gw{
+			left: 51%;
+		}
+		span.kf{
+			right: 25%;
+		}
+		.mui-bar{
+			background-color: #ffffff;
+			border-top:1px solid #cccaca;
+			box-sizing: border-box;
+			box-shadow: none;
+		}
+	</style>
+	<body>
+		<footer class="mui-bar mui-bar-tab">
+			<a data-id="index" data-url="index.html" class="mui-tab-item mui-active">
+				<span class="tb1"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a data-id="goods_sort" data-url="goods_sort.html" class="mui-tab-item">
+				<span class="tb2"></span>
+				<span class="mui-tab-label">分类</span>
+			</a>
+			<a data-id="shopping_cart" data-url="shopping_cart.html" class="mui-tab-item">
+				<span class="tb3"></span>
+				<span class="mui-tab-label">购物车</span>
+				<span class="mui-block gw">0</span>
+			</a>
+			<a data-id="kefu" data-url="kefu.html" class="mui-tab-item">
+				<span class="tb4"></span>
+				<span class="mui-tab-label">客服</span>
+				<span class="mui-block kf">0</span>
+			</a>
+			<a data-id="wode" data-url="wode.html" class="mui-tab-item">
+				<span class="tb5"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</footer>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript">
+			var activeTab = '';
+			// 根据id查询子页面的信息
+			var getSubInfoById = function(infoList, id) {
+				var result = null;
+				for(var i = 0, len = infoList.length; i < len; i++) {
+					var _info = infoList[i];
+					if(_info.id === id) {
+						result = _info;
+						break;
+					}
+				}
+				return result;
+			};
+
+			document.addEventListener('newsId', function(event) {
+				var wvs = plus.webview.all();
+				for(var i = 0, len = wvs.length; i < len; i++) {
+					//console.log(plus.webview.getLaunchWebview().id);
+					//关闭除当前页面外的其他页面
+					if(wvs[i].id == plus.webview.getLaunchWebview().id) {
+						//遇到当前页跳过
+						continue;
+					} else {
+						//console.log(wvs[i].id);
+						//非当前页执行关闭
+						wvs[i].close();
+					}
+				}
+				mui('.mui-tab-item').each(function(e) {
+					if(e == 0) {
+						this.classList.add('mui-active');
+					} else {
+						this.classList.remove('mui-active');
+					}
+
+				});
+				// 若webview不存在，则创建；
+				var subStyles = {
+					top: '0px',
+					bottom: '51px'
+				};
+				var homeWv = plus.webview.create('index.html', 'index', subStyles);
+				plus.webview.currentWebview().append(homeWv);
+				activeTab = 'index';
+				plus.webview.getWebviewById('index').show();
+			});
+			mui.plusReady(function() {
+				getCartList();  //购物车数量
+				var subInfos = [{
+					url: 'index.html',
+					id: 'index'
+				}, {
+					url: 'goods_sort.html',
+					id: 'goods_sort',
+				}, {
+					url: 'shopping_cart.html',
+					id: 'shopping_cart',
+				},{
+					url: 'kefu.html',
+					id: 'kefu',
+				},{
+					url: 'wode.html',
+					id: 'wode',
+				}];
+				var subStyles = {
+					top: '0px',
+					bottom: '51px'
+				};
+				var mainWv = plus.webview.currentWebview();
+				var titleEL = document.querySelector('.mui-title');
+
+				// 默认只加载首页webview
+				var homeWv = plus.webview.create(subInfos[0].url, subInfos[0].id, subStyles);
+				mainWv.append(homeWv);
+				activeTab = subInfos[0].id;
+				// 点击切换，动态创建其它webview；
+				mui('.mui-bar-tab').on('tap', 'a', function(e) {
+					var _self = this;
+					var targetTab = _self.getAttribute('data-id');
+					console.log(targetTab);
+					console.log(activeTab);
+					if(targetTab === activeTab) { 
+						return;
+					}
+					//titleEL.innerText = _self.querySelector('.mui-tab-label').innerText;
+					var _subWv = plus.webview.getWebviewById(targetTab);
+					// 若webview不存在，则创建；
+					if(!_subWv) {
+						var _subInfo = getSubInfoById(subInfos, targetTab);
+						_subWv = plus.webview.create(_subInfo.url, _subInfo.id, subStyles);
+						mainWv.append(_subWv);
+					} 
+					if(targetTab=='wode'||targetTab=='shopping_cart'){
+						_subWv.reload(); 
+						getCartList();
+					}
+					_subWv.show();
+					// 隐藏之前的webview 
+					plus.webview.getWebviewById(activeTab).hide('none');
+					activeTab = targetTab;
+				});
+			});
+
+			var first = null;
+			mui.back = function() {
+				plus.key.addEventListener('backbutton', function() {
+					//首次按键，提示‘再按一次退出应用’
+					if(!first) {
+						first = new Date().getTime();
+						mui.toast('再按一次退出应用');
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if(new Date().getTime() - first < 1000) {
+							plus.runtime.quit();
+						}
+					}
+				}, false);
+
+			}
+			
+			
+		</script>
+	</body>
+
+</html>

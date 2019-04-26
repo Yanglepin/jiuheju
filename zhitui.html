@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>直推的人</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app1.css" />
+	</head>
+	<style>
+		.liebiao {
+			width: 100%;
+			background: #979797;
+		}
+		
+		.liebiao ul {
+			width: 100%;
+		}
+		
+		.liebiao li {
+			text-align: center;
+			width: 33.3%;
+			padding: 10px 0;
+			font-size: 16px;
+			list-style: none;
+			background: #eeeeee;
+			float: left;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">直推的人</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="refreshContainer">
+			<div class="tuijianyongjin">
+				<!--<div class="liebiao">
+					<li>微信头像</li>
+					<li>微信昵称</li>
+					<li>加入时间</li>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="xiangxi">
+					<div class="ul">
+						<li class="xx"><img src="images/v9.png"></li>
+						<li class="zz"><span>许三多</span></li>
+						<li class="cc"><span>2018-5-25</span></li>
+						<div style="clear: both;"></div>
+					</div>
+
+					<div style="clear: both;"></div>
+				</div>-->
+
+			</div>
+
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					down: {
+						style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+						auto: true,
+						callback: push_down //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: false, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pull_up //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+			var page = 1;
+			var page_size = 15;
+			var page_total = 1;
+			var imgUrl = app.getServerUrl() + '/';
+			mui.plusReady(function() {
+
+			})
+
+			function pull_up() {
+				//console.log(11);
+				page = page + 1;
+				if(page > page_total) {
+					mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+					return false;
+				}
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/zhiPush&token=' + localStorage.getItem('token'), {
+					data: {
+						page_index: page,
+						page_size: page_size
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log("直推的人：" + JSON.stringify(data));
+						if(data.code == 0) {
+							page = page - 1;
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+							return false;
+						}
+						var html = '';
+						html += '<div class="liebiao"><li>微信头像</li><li>微信昵称</li><li>加入时间</li><div style="clear: both;"></div></div>';
+						if(data.total_count == 0) {
+							html += '<div style="text-align: center;"><img src="noresult.png"></div>';
+						} else {
+							mui.each(data, function(index, item) {
+								html += '<div class="xiangxi">';
+								html += '<div class="ul">';
+								if(item.user_headimg == '') {
+									html += '<li class="xx"><img src="images/v9.png"></li>';
+								} else {
+									html += '<li class="xx"><img src="' + imgUrl + item.user_headimg + '"></li>';
+								}
+								html += '<li class="zz"><span>' + item.nick_name + '</span></li>';
+								html += '<li class="cc"><span>' + item.reg_time + '</span></li>';
+								html += '<div style="clear: both;"></div>';
+								html += '</div>';
+								html += '<div style="clear: both;"></div>';
+								html += '</div>';
+							});
+						}
+						page_total = lists['page_count'];
+						$('.tuijianyongjin').append(html);
+						mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast('服务器错误，稍后重试');
+
+					}
+				});
+			}
+
+			function push_down() {
+				page = 1;
+				mui('#refreshContainer').pullRefresh().refresh(true);
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/zhiPush&token=' + localStorage.getItem('token'), {
+					data: {
+						page_index: page,
+						page_size: page_size
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log("直推的人：" + JSON.stringify(data));
+						var html = '';
+						html += '<div class="liebiao"><li>微信头像</li><li>微信昵称</li><li>加入时间</li><div style="clear: both;"></div></div>';
+						if(data.total_count == 0) {
+							html += '<div style="text-align: center;"><img src="noresult.png"></div>';
+						} else {
+							mui.each(data, function(index, item) {
+								html += '<div class="xiangxi">';
+								html += '<div class="ul">';
+								if(item.user_headimg == '') {
+									html += '<li class="xx"><img src="images/tou.png"></li>';
+								} else {
+									html += '<li class="xx"><img src="' + imgUrl + item.user_headimg + '"></li>';
+								}
+								html += '<li class="zz"><span>' + item.nick_name + '</span></li>';
+								html += '<li class="cc"><span>' + item.reg_time + '</span></li>';
+								html += '<div style="clear: both;"></div>';
+								html += '</div>';
+								html += '<div style="clear: both;"></div>';
+								html += '</div>';
+							});
+						}
+						$('.tuijianyongjin').html(html);
+						mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast('服务器错误，稍后重试');
+						mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					}
+				});
+
+			}
+		</script>
+
+	</body>
+
+</html>

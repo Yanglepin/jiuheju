@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>购物车</title>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/shoppingCart.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="mui.back()"></a>
+			<h1 class="mui-title">购物车</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="shoppingCart-empty mui-hidden">
+				<img src="images/gouwuche.png" style="width: 30%;margin-top: 28%;" />
+				<p>购物车空空如也，赶快去逛逛吧！</p>
+				<img src="images/gouwuche-btn.png" style="width: 50%;margin-top: 5%;" id="guangguang" />
+			</div>
+			<ul class="mui-table-view cart-list">
+				<!--<div class="BoxItemTop ShopAll" data-index="1">
+					<a class="chk mui-icon mui-icon-checkmarkempty"></a>
+					<a class="BoxItemTopShopName">全选</a>
+				</div>
+				<li class="mui-table-view-cell mui-media BoxItem" data-index="1">
+					<div class='mui-slider-handle'>
+						<div class="BoxItemBottom">
+							<div class="BoxItemBottomLeft">
+								<a class="chks mui-icon mui-icon-checkmarkempty"></a>
+							</div>
+							<div class="BoxItemBottomRight">
+								<img class="BoxItemBottomRightImg" src="http://t11img.yangkeduo.com/images/2018-04-03/eaf5cbe294f3336cf1b3784038e41622.jpeg" />
+								<div class="BoxItemBottomRightDetails">
+									<div class="BoxItemBottomRightDetailsName mui-clearfix">
+										<p class="mui-ellipsis-2">闽绿新茶【送紫砂茶具带茶盘27件套 】龙井铁观音一斤多规格可选龙井铁观音一斤多规格可选龙井铁观音一斤多规格可选</p>
+										<a class="BoxItemBottomRightDetailsMoney">￥600.00</a>
+									</div>
+									<div class="BoxItemBottomNum mui-clearfix">
+										<div class="BoxItemBottomRightDetailsPrice mui-pull-left">
+											<a class="mui-pull-right btn_add">+</a>
+											<input class="mui-pull-right txt_Num" type="number" value="1">
+											<a class="mui-pull-right btn_jian">-</a>
+										</div>
+										<div class="delete mui-pull-right">
+											删除
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-media BoxItem" data-index="1">
+					<div class='mui-slider-handle'>
+						<div class="BoxItemBottom">
+							<div class="BoxItemBottomLeft">
+								<a class="chks mui-icon mui-icon-checkmarkempty"></a>
+							</div>
+							<div class="BoxItemBottomRight">
+								<img class="BoxItemBottomRightImg" src="images/22.png" />
+								<div class="BoxItemBottomRightDetails">
+									<div class="BoxItemBottomRightDetailsName mui-clearfix">
+										<p class="mui-ellipsis-2">闽绿新茶 </p>
+										<a class="BoxItemBottomRightDetailsMoney">￥600.00</a>
+									</div>
+									<div class="BoxItemBottomNum mui-clearfix">
+										<div class="BoxItemBottomRightDetailsPrice mui-pull-left">
+											<a class="mui-pull-right btn_add">+</a>
+											<input class="mui-pull-right txt_Num" type="number" value="1">
+											<a class="mui-pull-right btn_jian">-</a>
+										</div>
+										<div class="kucun mui-pull-left">
+											库存量：25
+										</div>
+										<div class="delete mui-pull-right">
+											删除
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>-->
+
+			</ul>
+			<div style="height: 70px;"></div>
+		</div>
+		<div class="footer">
+			<div class="footer-center">
+				<div class="footer-center-top">
+					<a class="footer-center-top-left">总计:</a>
+					<a class="footer-center-top-right">¥0</a>
+				</div>
+			</div>
+			<div id="gotoCalc" class="footer-right">结算
+				<a class="count">（0）</a>件
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script>
+			mui.init();
+			var imgUrl = app.getServerUrl() + '/';
+			var sku_list=[];
+			mui.plusReady(function() {
+				//购物车列表
+				getCartList();
+				//去逛逛
+				mui('.shoppingCart-empty').on('tap', 'img#guangguang', function() {
+					//					console.log("00");
+					mui.openWindow({
+						url: 'goods_list.html',
+						id: 'goods_list'
+					})
+				})
+			})
+
+			//购物车列表
+			function getCartList() {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/cart&token=' + localStorage.getItem('token'), {
+					data: {
+
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；   
+					success: function(data) {
+						console.log(JSON.stringify(data.cartlist));
+						var html = '';
+						if(data.cartlist.length > 0) {
+							html += '<div class="BoxItemTop ShopAll" data-index="1">';
+							html += '<a class="chk mui-icon mui-icon-checkmarkempty"></a>';
+							html += '<a class="BoxItemTopShopName">全选</a></div>';
+							mui.each(data.cartlist, function(index, item) {
+								html += '<li class="mui-table-view-cell mui-media BoxItem" data-index="1">';
+								html += '<div class="mui-slider-handle"><div class="BoxItemBottom"><div class="BoxItemBottomLeft">';
+								html += '<a class="chks mui-icon mui-icon-checkmarkempty" data-cartid="' + item.cart_id + '"></a></div>';
+								html += '<div class="BoxItemBottomRight">';
+								html += '<img class="BoxItemBottomRightImg" src="' + imgUrl + item.picture_info.pic_cover + '" />';
+								html += '<div class="BoxItemBottomRightDetails">';
+								html += '<div class="BoxItemBottomRightDetailsName mui-clearfix">';
+								html += '<p class="mui-ellipsis-2">' + item.goods_name + '</p>';
+								html += '<a class="BoxItemBottomRightDetailsMoney">¥' + item.price + '</a>';
+								html += '</div>';
+								html += '<div class="BoxItemBottomNum mui-clearfix">';
+								html += '<div class="BoxItemBottomRightDetailsPrice mui-pull-left">';
+								html += '<a class="mui-pull-right btn_add" data-cartid="' + item.cart_id + '">+</a>';
+								html += '<input class="mui-pull-right txt_Num" type="number" value="' + item.num + '">';
+								html += '<a class="mui-pull-right btn_jian" data-cartid="' + item.cart_id + '">-</a>';
+								html += '</div>';
+								if(item.stock <= 20) { 
+									html += '<div class="kucun mui-pull-left">库存量：' + item.stock + '</div>';
+								}
+								html += '<div class="delete mui-pull-right" data-cartid="' + item.cart_id + '">删除</div>';
+								html += '</div></div></div>';
+								html += '</div></div>';
+								html += '</li>';
+							})
+							$(".cart-list").html(html);
+						} else {
+							mui(".cart-list")[0].classList.add('mui-hidden');
+							mui(".footer")[0].classList.add('mui-hidden');
+							mui(".shoppingCart-empty")[0].classList.remove('mui-hidden');
+						}
+						
+						//删除购物车商品 
+						mui('.BoxItemBottomNum').on('tap', '.delete', function() {
+							var cart_id = this.getAttribute("data-cartid");
+							console.log(cart_id);
+							deleteCart(cart_id);
+						})
+
+						//购买数量加1
+						mui(".BoxItemBottomRightDetailsPrice").on("tap", ".btn_jian", function() {
+							var cart_id = this.getAttribute("data-cartid");
+							if($(this).prev()[0].value == 1) {
+								mui.toast("不能再减少啦~");
+								return;
+							} else {
+								$(this).prev()[0].value = parseInt($(this).prev()[0].value) - 1;
+							}
+							var num= parseInt($(this).prev()[0].value);
+							updateCart(cart_id, num);
+							CalcMoney();
+						})
+						//购买数量减1
+						mui(".BoxItemBottomRightDetailsPrice").on("tap", ".btn_add", function() {
+							var cart_id = this.getAttribute("data-cartid");
+							$(this).next()[0].value = parseInt($(this).next()[0].value) + 1;
+							var num= parseInt($(this).next()[0].value);
+							updateCart(cart_id, num);
+							CalcMoney();
+						})
+
+						//选择/取消某个店铺所有商品
+						mui(".BoxItemTop").on("tap", ".chk", function() { 
+							var index = $(this).parents().attr("data-index");
+							if($(this)[0].classList.contains("selectPrice")) {
+								$(this).removeClass("selectPrice");
+								selectShop(false, index);
+								sku_list=[];
+//								console.log("全不选sku_list："+sku_list);
+							} else {
+								$(this).addClass("selectPrice");
+								selectShop(true, index);
+								if(typeof(sku_list)=='string'){
+									sku_list = sku_list.split(",");
+								}
+								 
+								for(var i=0;i<data.cartlist.length;i++) {
+									sku_list.push(data.cartlist[i].cart_id);
+								}
+								sku_list = sku_list.join(",");
+//								console.log("全选sku_list："+sku_list);
+
+							}
+							CalcMoney();
+						})
+						//选中/取消商品
+						mui(".BoxItemBottom").on("tap", ".chks", function() {
+							var index = $($(this).parents("li")[0]).attr("data-index");
+							if($(this)[0].classList.contains("selectPrice")) {
+								$(this).removeClass("selectPrice");
+								//取消选择商品的时候取消全选
+								mui(".ShopAll").each(function() {
+									if($(this).attr("data-index") == index) {
+										$($(this)[0].children[0]).removeClass("selectPrice");
+									} 
+								})
+								var cart_id = $(this).attr("data-cartid");
+								if(typeof(sku_list)=='string'){
+									sku_list = sku_list.split(",");
+								}
+								sku_list = sku_list.filter(
+								    function(item) {
+								        return item != cart_id;
+								    }
+								);
+//								console.log("点击取消sku_list："+sku_list);
+								$(".footer-left1").removeClass("selectAll");
+							} else {
+								$(this).addClass("selectPrice");
+								if(isShopAll(index)) {
+									mui(".ShopAll").each(function() {
+										if($(this).attr("data-index") == index) {
+											$($(this)[0].children[0]).addClass("selectPrice");
+										}
+									})
+								}
+								if(isAll()) {
+									$(".footer-left1").addClass("selectAll");
+								}
+								var cart_id = $(this).attr("data-cartid");
+								if(typeof(sku_list)=='string'){
+									sku_list = sku_list.split(",");
+								}
+								sku_list.push(cart_id);
+//								console.log("点击选中sku_list："+sku_list);
+								
+							}
+							CalcMoney();
+						})
+						
+						//结算
+						mui('.footer').on('tap', '#gotoCalc', function() {
+							console.log(sku_list);
+							if(sku_list==''){
+								mui.toast("您还没有选择商品！");
+								return false;
+							}else{
+								mui.openWindow({
+									id: 'order_q1',
+									url: 'order_q1.html', 
+									extras: { 
+										sku_list: sku_list
+									},
+									waiting: {
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							}
+						})
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+				
+			}
+
+			//购物车删除
+			function deleteCart(cart_id) {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/cartDelete&token=' + localStorage.getItem('token'), {
+					data: {
+						del_id: cart_id
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						if(data.code == 1) {
+							mui.toast("删除成功！");
+							getCartList();
+							return false;
+						} else {
+							mui.toast("删除失败！");
+							return false;
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+			//购物车商品数量修改
+			function updateCart(cart_id, num) {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/cartAdjustNum&token=' + localStorage.getItem('token'), {
+					data: {
+						cartid: cart_id,
+						num: num
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+//						console.log(JSON.stringify(data));
+						if(data.code == 1) {
+//							mui.toast("修改成功！");
+							/*getCount();
+							setTimeout(function(){
+								$(".cart-footer .red").html($("#total_money").val());
+								$(".cart-footer .total i").html($("#total_num").val());
+							},300);*/
+							return false; 
+						} else {
+//							mui.toast("修改失败！");
+							return false;
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+
+			//判断是否全选
+			function isAll() {
+				var result = true;
+				mui(".chk").each(function() {
+					if(!$(this)[0].classList.contains("selectPrice")) {
+						result = false;
+						return result;
+					}
+				})
+				mui(".chks").each(function() {
+					if(!$(this)[0].classList.contains("selectPrice")) {
+						result = false;
+						return result;
+					}
+				})
+				return result;
+			}
+			//判断商铺里面所有商品是否选中
+			function isShopAll(index) {
+				var result = true;
+				mui("li").each(function(i, e) {
+					if($(this).attr("data-index") == index) {
+						if(!$(this)[0].children[0].children[0].children[0].children[0].classList.contains("selectPrice")) {
+							result = false;
+							return result;
+						}
+					}
+				})
+				return result;
+			}
+			//选中/取消
+			function selectShop(isSelect, index) {
+				mui("li").each(function(i, e) {
+					//					debugger;
+					if($(this).attr("data-index") == index) {
+						if(isSelect) {
+							//							console.log(this);
+							if(!$(this)[0].children[0].children[0].children[0].children[0].classList.contains("selectPrice")) {
+								$($(this)[0].children[0].children[0].children[0].children[0]).addClass("selectPrice");
+							}
+							//如果所有复选框全部选中则选中全选
+							if(isAll()) {
+								$(".footer-left1").addClass("selectAll");
+							}
+						} else {
+							if($(this)[0].children[0].children[0].children[0].children[0].classList.contains("selectPrice")) {
+								$($(this)[0].children[0].children[0].children[0].children[0]).removeClass("selectPrice");
+							}
+							//无论什么只要取消选择则 取消全选
+							$(".footer-left1").removeClass("selectAll");
+						}
+					}
+				})
+				CalcMoney();
+			}
+			//计算总价及总个数
+			function CalcMoney() {
+				var count = 0;
+				var money = 0;
+				mui(".chks").each(function() {
+					if($(this)[0].classList.contains("selectPrice")) {
+						var price = $(this).parents().next()[0].children[1].children[0].children[1].innerHTML.split("¥")[1];
+						
+						var num = $(this).parents().next()[0].children[1].children[1].children[0].children[1].value;
+						money += parseFloat(price) * num;
+						count = count + parseInt(num);
+					}
+					//去结算个数
+					$(".count").html("（" + count + "）");
+					//合计
+					$(".footer-center-top-right").html("¥" + money);
+				})
+			}
+		</script>
+	</body>
+
+</html>

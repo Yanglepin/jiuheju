@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>九和居-确认付款</title>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.mui-radio input[type='radio']:before, .mui-checkbox input[type='checkbox']:before{
+				font-size: 22px;
+			}
+			.mui-radio input[type=radio]:before, .mui-checkbox input[type=checkbox]:before {
+			    content: '\e442';
+			}
+			.mui-radio input[type=radio]:checked:before, .mui-checkbox input[type=checkbox]:checked:before {
+			    content: '\e442';
+			    color: #036342;
+			}
+		</style>
+	</head>
+
+	<body> 
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="mui.back()"></a>
+			<h1 class="mui-title">确认付款</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper pay-order">
+			<div class="pay-top">
+				<div class="pay-tit"><img src="images/dui.png" />订单已提交 </div>
+				<div class="order-list mui-clearfix">
+					<div class="mui-pull-left">订单号：</div>
+					<div class="mui-pull-right">支付金额：<span class="red">&yen;0.00</span></div>
+				</div>
+			</div>
+			<div class="pay-way">
+				<p class="payway-tit">选择支付方式</p>
+				<!--<div class="payway-list mui-clearfix">
+					<div class="mui-pull-left"><img src="images/pay-hb.png" />合币支付</div>
+					<div class="mui-pull-right">
+						<div class="mui-input-row mui-radio">
+							<label></label>
+							<input name="radio" value="0" type="radio" style="top: 12px; right: -3px;">
+						</div>
+					</div>
+				</div>-->
+				<div class="payway-list mui-clearfix">
+					<div class="mui-pull-left"><img src="images/pay-zfb.png" style="width: 29%;"/>支付宝支付</div>
+					<div class="mui-pull-right">
+						<div class="mui-input-row mui-radio">
+							<label></label>
+							<input name="radio" value="2" type="radio" style="top: 12px; right: -3px;">
+						</div>
+					</div>
+				</div>
+				<div class="payway-list mui-clearfix">
+					<div class="mui-pull-left"><img src="images/pay-wx.png" />微信支付</div>
+					<div class="mui-pull-right">
+						<div class="mui-input-row mui-radio">
+							<label></label>
+							<input name="radio" value="1" type="radio" checked="checked" style="top: 12px; right: -3px;">
+						</div>
+					</div> 
+				</div>
+			</div>
+			
+			
+			<div class="address-foot">
+				<img src="images/green-btn.png"/>
+				<span class="mui-block">确认付款</span>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/pay.js" ></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				out_trade_no = self.out_trade_no;
+				pay_money = self.pay_money;
+				type = self.type;   //用来判断是否是代理升级支付
+				console.log("type:"+type);
+			/*	console.log(out_trade_no);
+				console.log(pay_money);*/
+				var html = '';
+				html+='<div class="mui-pull-left">订单号：'+out_trade_no+'</div>';
+				html+='<div class="mui-pull-right">支付金额：<span class="red">&yen;'+pay_money+'</span></div>';
+				$(".order-list").html(html);
+				
+				//支付通道 
+				getPayChanel();
+				
+				mui('.address-foot').on('tap', 'span', function() {
+//					wechatLogin();
+					var pay_type = mui('input[name="radio"]:checked')[0].value; 
+					console.log(pay_type);
+					var url1 = app.getServerUrl()+'/'; 
+					payClick(url1, pay_type, out_trade_no,type);
+				})
+			})
+			
+			
+			
+		</script>
+	</body>
+
+</html>

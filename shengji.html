@@ -1,0 +1,301 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>升级代理</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link href="css/app.css" rel="stylesheet" />
+	</head>
+	<style>
+		.my {
+			color: #FFFFFF;
+			padding: 6%;
+			width: 100%;
+			position: absolute;
+			font-size: 17px;
+		}
+		
+		.jq {
+			text-align: center;
+			position: absolute;
+			width: 100%;
+			top: 15%;
+		}
+		
+		.zt {
+			width: 90%;
+			position: absolute;
+			top: 25%;
+			margin-left: 5%;
+		}
+		
+		.zt p {
+			color: #fff;
+		}
+		
+		.kuang {
+			width: 80%;
+			position: absolute;
+			left: 10%;
+			top: 44%;
+			border: 2px solid #fff;
+		}
+		
+		.mui-checkbox input[type=checkbox],
+		.mui-radio input[type=radio] {
+			position: absolute;
+			margin-top: -1.2%;
+			right: 20px;
+			display: inline-block;
+			width: 38px;
+			height: 42px;
+			border: 0;
+			border-right: 2px solid #fff;
+			outline: 0!important;
+			background-color: transparent;
+			-webkit-appearance: none;
+		}
+		
+		.mui-checkbox input[type=checkbox]:before,
+		.mui-radio input[type=radio]:before {
+			font-family: Muiicons;
+			font-size: 30px;
+			font-weight: 400;
+			line-height: 1.2;
+			text-decoration: none;
+			color: #aaa;
+			border-radius: 0;
+			background: 0 0;
+			-webkit-font-smoothing: antialiased;
+		}
+		
+		.ding {
+			width: 100%;
+			float: left;
+			font-size: 15px;
+			color: #FFFFFF;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.ding:not(:last-child){
+			border-bottom: 2px solid #FFFFFF;
+		}
+
+		.ding label {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		
+		.ding input {
+			margin-left: -5%;
+		}
+		
+		.fen {
+			width: 80%;
+			position: absolute;
+			top: 37%;
+			left: 10%;
+		}
+		
+		.fen img {
+			width: 100%;
+		}
+		
+		.mui-content {
+			background: url(images/beijing.png) 100% 87% no-repeat;
+			background-size: 100%;
+		}
+		.ding1{
+			border-bottom: 2px solid #fff;
+			height: 3.5rem;
+			line-height: 3.5rem;
+		}
+		.mui-radio input[type=radio]:checked:before, .mui-checkbox input[type=checkbox]:checked:before {
+		    content: '\e442';
+		    color: #ff4444;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="mui.back()"></a> 
+			<h1 class="mui-title">升级代理</h1>
+			<a class="mui-icon mui-pull-right" style="font-size: 18px;padding-top: 4%;" id="tijiao">提交</a>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="my">
+				<span>当前总金额</span>
+			</div>
+			<div class="jq">
+				<!--<p style="font-size: 25px;color: #fef091;">¥28.00</p>
+				<p style="font-size: 15px;color: #d3ac35;">(普通代理)</p>-->
+			</div>
+			<div class="zt">
+				<p>升级规则：根据缴纳的金额获取相对应的代理级别，并获得充值金额相等的元币，元币可直接购物。</p>
+			</div>
+			<div class="fen">
+				<img src="images/c9.png" />
+			</div>
+			<div class="kuang">
+				<div class="ding1" id="grad1">
+					<span style="margin-left: 15%;font-size: 18px;color: #FFFFFF;">代理级别选择</span>
+					<div style="clear: both;"></div>
+				</div>
+				<div id="agentList">
+					<div class="ding">
+						<div class="mui-input-row mui-radio mui-left">
+							<label>一级代理：28元，送28元币</label>
+							<input name="radio" type="radio" checked="checked">
+						</div>
+					</div>
+					<div class="ding">
+						<div class="mui-input-row mui-radio mui-left">
+							<label>二级代理：280元，送280元币</label>
+							<input name="radio" type="radio">
+						</div>
+					</div>
+					<div class="ding">
+						<div class="mui-input-row mui-radio mui-left">
+							<label>三级代理：1000元，送1000元币11111111222222</label>
+							<input name="radio" type="radio">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+		<script type="text/javascript" src="js/mui.min.js" ></script>
+		<script type="text/javascript" src="js/app.js" ></script>
+		<script>
+			mui.init();
+			mui.plusReady(function(){
+				//升级代理列表
+				getAgentList();
+				//获取个人信息
+				memberData();
+			})
+			//升级代理列表
+			function getAgentList(){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/memberAgentList&token=' + localStorage.getItem('token'),{
+					data:{
+						
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+//						console.log(JSON.stringify(data.data));
+						var html='';
+						mui.each(data.data,function(index,item){
+							html+='<div class="ding" data-agentid="'+item.agent_id+'">';
+							html+='<div class="mui-input-row mui-radio mui-left">';
+							html+='<label>'+item.agent_name+'：'+item.money+'元，送'+item.give_point+'元币</label>';
+							html+='<input name="radio" type="radio">';
+							html+='</div></div>';
+						})
+						
+						$("#agentList").html(html);
+						mui('#agentList').on('tap','.ding',function(){
+							var agent_id = this.getAttribute("data-agentid");
+							console.log(agent_id);
+							getAgentOrder(agent_id);
+						})
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+			//升级代理创建订单
+			function getAgentOrder(agent_id){
+				
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/memberAgentCreateorder&token=' + localStorage.getItem('token'),{
+					data:{
+						agent_id: agent_id
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+//						console.log(JSON.stringify(data));
+						if(data.code>0){ 
+							console.log(data.out_trade_no);
+							getagentPayValue(data.out_trade_no); 
+						}else{
+							mui.toast(data.message);
+							return false;
+						}
+						
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type); 
+						console.log(type);
+					}
+				});
+			}
+			//判断升级代理订单是否存在
+			function getagentPayValue(out_trade_no){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/pay/getagentPayValue&token=' + localStorage.getItem('token'),{
+					data:{
+						out_trade_no: out_trade_no.toString()
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+//						console.log("判断升级代理订单是否存在:"+JSON.stringify(data)); 
+						if(data.code>0){
+							document.getElementById("tijiao").addEventListener('tap', function(event) {
+								mui.openWindow({
+									id: 'pay_order',
+									url: 'pay_order.html',   
+									extras: { 
+										out_trade_no: data.data.out_trade_no,
+										pay_money: data.data.order_money,
+										type: 1
+									},
+									waiting: {
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							});
+						}
+						
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type); 
+						console.log(type);
+					}
+				});
+			}
+			
+			//查询个人信息
+			function memberData(){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/memberData&token=' + localStorage.getItem('token'),{
+					data:{
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+//						console.log("查询个人信息:"+JSON.stringify(data.message)); 
+						var html='';
+						html +='<p style="font-size: 25px;color: #fef091;">&yen;'+data.message.data.balance+'</p>';
+						html +='<p style="font-size: 15px;color: #d3ac35;">('+data.message.agent_name+')</p>';
+						$(".jq").html(html);
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type);
+						console.log(type);
+					}
+				}); 
+			}
+		</script>
+	</body>
+
+</html>

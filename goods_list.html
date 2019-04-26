@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>九和居-商品列表</title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			    color: #036342;
+			    background: none;
+			    border-bottom: none;
+			}
+			.mui-segmented-control.mui-scroll-wrapper .mui-control-item{
+				padding: 0;
+				width: 16%;
+			}
+			.mui-slider-indicator.mui-segmented-control{
+				width: 100%;
+				border-bottom: 1px solid #F0F1F2;
+				box-sizing: border-box;
+				line-height: 1.5rem;
+			}
+			.mui-table-view-chevron .mui-table-view-cell{
+				
+			}
+			#sliderSegmentedControl a img{
+				width: 4%;
+				display: inline-block;
+				top: 21%;
+				position: absolute;
+			}
+			.xinpin{
+				position: absolute;
+				top: 6%;
+				left: 10%;
+				
+			}
+			.mui-table-view-cell.mui-active{
+				background-color: #fff;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active{
+				margin: 2.5% 0;
+			}
+			.mui-checkbox input[type='checkbox']:checked:before {
+				color: #036342;
+				content: '\e442';
+			}
+			a.white{
+				padding: 0px !important;
+				margin: 0px !important;
+			}
+			.mui-table-view-cell.mui-collapse .mui-table-view{
+				margin-top: 25px;
+			}
+			li.white{
+				margin: 0px !important;
+				padding: 0px !important;
+			}
+			/*.list-spec-btn{
+				position: fixed;
+				width: 100%;
+				height: 35px;
+				line-height: 35px;
+				z-index: 1000;
+				background-color: #fff;
+				top: 50%;
+			}
+			.list-spec-btn .spec-btn-left,.list-spec-btn .spec-btn-right{
+				width: 50%;
+				text-align: center;
+			}*/
+
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">商品列表</h1>
+		</header> 
+		<div class="mui-content mui-scroll-wrapper" id="refreshContainer">
+			<!--轮播图-->
+			<div id="slider" class="mui-slider banner">
+				<div class="mui-slider-group mui-slider-loop" id="lunbo">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<!--<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 第一张 -->
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 第二张 -->
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 第三张 -->
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<!--<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+				</div>
+				<div class="mui-slider-indicator" id="lunbo2">
+					<!--<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>-->
+				</div>
+			</div>
+			
+			<!--列表顶部-->
+			<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+				<!--<div class="mui-scroll">-->
+					<a class="mui-control-item mui-active" href="#item0" data-status="0">综合</a>
+					<a class="mui-control-item" href="#item1" data-status="1">销量</a>
+					<a class="mui-control-item" href="#item2" data-status="2">价格<img src="images/ud.png" id="price"></a>
+					<a class="mui-control-item" href="#item3" data-status="3">新品</a>
+					<a class="mui-control-item" href="#item4" data-status="4">送合币</a>
+					<a class="mui-control-item" href="#item5" data-status="5">兑换区</a>
+				<!--</div>-->
+			</div>
+			
+			<div style="width: 100%; position: relative;">
+				<ul class="mui-table-view mui-table-view-chevron list-spec">
+					<!--品牌-->
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">品牌</a>
+						<ul class="mui-table-view mui-table-view-chevron list-sort mui-clearfix">
+							<div style="position: relative; height: 15rem; overflow-y: scroll;" class="mui-clearfix">
+								<li class="mui-table-view-cell white lh35 list-sort-con mui-pull-left">
+									<a class="white" data-title-type="native" href="">
+										<input name="checkbox" value="Item 1" type="checkbox" ><label>品牌1</label>
+									</a>
+								</li>
+								<li class="mui-table-view-cell white lh35 mui-pull-left">
+									<a class="white" data-title-type="native" href="">
+										<input name="checkbox" value="Item 1" type="checkbox" ><label>品牌2</label>
+									</a>
+								</li>
+								<li class="mui-table-view-cell white lh35 list-sort-con mui-pull-left">
+									<a class="white" data-title-type="native" href="">
+										<input name="checkbox" value="Item 1" type="checkbox" ><label>品牌3</label>
+									</a>
+								</li>
+								<li class="mui-table-view-cell white lh35 mui-pull-left"> 
+									<a class="white" data-title-type="native" href="">
+										<input name="checkbox" value="Item 1" type="checkbox" ><label>品牌4</label>
+									</a>
+								</li>
+								<li class="mui-table-view-cell white lh35 mui-pull-left">
+									<a class="white" data-title-type="native" href="">
+										<input name="checkbox" value="Item 1" type="checkbox" ><label>品牌2</label>
+									</a>
+								</li>
+								<li class="mui-table-view-cell white lh35 list-sort-con mui-pull-left">
+									<a class="white" data-title-type="native" href="">
+										<input name="checkbox" value="Item 1" type="checkbox" ><label>品牌3</label>
+									</a>
+								</li>
+								<li class="mui-table-view-cell white lh35 mui-pull-left">
+									<a class="white" data-title-type="native" href="">
+										<input name="checkbox" value="Item 1" type="checkbox" ><label>品牌4</label>
+									</a>
+								</li>
+							
+							</div>
+							
+						</ul>
+					</li>
+					<!--风格-->
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">风格</a>
+						<ul class="mui-table-view mui-table-view-chevron list-sort mui-clearfix">
+							<li class="mui-table-view-cell white lh35 list-sort-con mui-pull-left">
+								<a class="white" data-title-type="native" href="">
+									<input name="checkbox" value="Item 1" type="checkbox" ><label>风格1</label>
+								</a>
+							</li>
+							
+						</ul>
+					</li>
+					<!--材质-->
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">材质</a>
+						<ul class="mui-table-view mui-table-view-chevron list-sort mui-clearfix">
+							<li class="mui-table-view-cell white lh35 list-sort-con mui-pull-left">
+								<a class="white" data-title-type="native" href="">
+									<input name="checkbox" value="Item 1" type="checkbox" >材质1
+								</a>
+							</li>
+							<li class="mui-table-view-cell white lh35 mui-pull-left">
+								<a class="white" data-title-type="native" href="">
+									<input name="checkbox" value="Item 1" type="checkbox" >材质2
+								</a>
+							</li>
+							<li class="mui-table-view-cell white lh35 list-sort-con mui-pull-left">
+								<a class="white" data-title-type="native" href="">
+									<input name="checkbox" value="Item 1" type="checkbox" >材质3
+								</a>
+							</li>
+						</ul>
+					</li>
+					<!--尺寸-->
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">尺寸</a>
+						<ul class="mui-table-view mui-table-view-chevron list-sort mui-clearfix">
+							<li class="mui-table-view-cell white lh35 list-sort-con mui-pull-left">
+								<a class="white" data-title-type="native" href="">
+									<input name="checkbox" value="Item 1" type="checkbox" >尺寸1
+								</a>
+							</li>
+							<li class="mui-table-view-cell white lh35 mui-pull-left">
+								<a class="white" data-title-type="native" href="">
+									<input name="checkbox" value="Item 1" type="checkbox" >尺寸2
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="mui-slider-group" id="segmentedControlContents" style="margin-top: 10px;">
+				<div id="item0" class="mui-slider-item mui-control-content recommend-list mui-clearfix mui-active">
+					<!--<div class="recommend-con mui-pull-left">
+						<img src="images/banner.png" />
+						<div class="recommend-title mui-ellipsis-2">九和居 北欧小户型布艺沙发 组合沙发 日式客厅家具 三人位</div>
+						<div class="recommend-bottom">
+							<div class="recommend-bottom-top mui-clearfix">
+								<div class="hebin mui-pull-left">
+									<img src="images/hebin1.png" />
+									<div class="zhb">赠合币</div>
+									<div class="num">30</div>
+								</div>
+								<span class="mui-block mui-pull-right">已售: 24件</span>
+							</div>
+							<div class="recommend-bottom-bom mui-clearfix">
+								<span class="mui-block mui-pull-left red">￥1590</span>
+								<span class="mui-block mui-pull-left gray">￥1999</span>
+								<span class="mui-block mui-pull-right">剩余: 76件</span>
+							</div>
+						</div>
+						<div class="xinpin"><img src="images/xinpin.png" style="width: 5rem; height: 5rem; border:none;"/></div>
+					</div>
+	
+					<div class="recommend-con mui-pull-left">
+						<img src="images/22.png" />
+						<div class="recommend-title mui-ellipsis-2">九和居 北欧小户型布艺沙发 组合沙发 日式客厅家具 三人位</div>
+						<div class="recommend-bottom">
+							<div class="recommend-bottom-top mui-clearfix">
+								<div class="hebin mui-pull-left">
+									<img src="images/hebin1.png" />
+									<div class="zhb">赠合币</div>
+									<div class="num">3000</div>
+								</div>
+								<span class="mui-block mui-pull-right">已售: 24件</span>
+							</div>
+							<div class="recommend-bottom-bom mui-clearfix">
+								<span class="mui-block mui-pull-left red">￥1590</span>
+								<span class="mui-block mui-pull-left gray">￥1999</span>
+								<span class="mui-block mui-pull-right">剩余: 76件</span>
+							</div>
+						</div>
+					</div> -->
+					
+				</div>
+				<div id="item1" class="mui-slider-item mui-control-content recommend-list mui-clearfix">
+					
+				</div>
+				<div id="item2" class="mui-slider-item mui-control-content recommend-list mui-clearfix">
+					
+				</div>
+				<div id="item3" class="mui-slider-item mui-control-content recommend-list mui-clearfix">
+					
+				</div>
+				<div id="item4" class="mui-slider-item mui-control-content recommend-list mui-clearfix">
+					
+				</div>
+				<div id="item5" class="mui-slider-item mui-control-content recommend-list mui-clearfix">
+					
+				</div>
+			</div>
+
+		</div> 
+		<input type="hidden" value="0" id="status_val"/>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					down: {
+						style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+						auto: true,
+						callback: push_down //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: false, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pull_up //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+			var page = 1;
+			var page_size = 2;
+			var page_total = 1; 
+			var imgUrl = app.getServerUrl() + '/';
+			var obyzd='';
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				category_id = self.category_id;
+				console.log(category_id);
+				//顶部scroll
+				lunBo();
+				//规格
+				getSpec(category_id);
+				//商品列表
+				var status = document.getElementById("status_val").value;
+//				getGoodsList(category_id,status,obyzd);
+				mui('#sliderSegmentedControl').on('tap', 'a', function() {
+					var obj = $(this);
+					var status = this.getAttribute("data-status");
+					console.log(status);
+					mui("#status_val")[0].value = status;
+					//综合列表
+					if(status==0){
+						getGoodsList(category_id,status); 
+						$("#price").attr("src","images/ud.png");
+					}
+					//销量
+					if(status==1){
+						var obyzd = 'sales';
+						getGoodsList(category_id,status,obyzd); 
+						$("#price").attr("src","images/ud.png");
+					}
+					//价格
+					if(status==2){ 
+						var obyzd = 'promotion_price';
+//						console.log($(this).children().attr("src"));
+						if($(this).children().attr("src")=='images/ud.png'){
+							$(this).children().attr("src","images/up.png");
+							var sort = 'asc';
+							getGoodsList(category_id,status,obyzd,sort); 
+						}else if($(this).children().attr("src")=='images/up.png'){
+							$(this).children().attr("src","images/down.png");
+							var sort = 'desc';
+							getGoodsList(category_id,status,obyzd,sort); 
+						}else{
+							$(this).children().attr("src","images/up.png");
+							var sort = 'asc';
+							getGoodsList(category_id,status,obyzd,sort); 
+						}
+						
+					}
+					//新品
+					if(status==3){
+						var obyzd = 'is_new';
+						getGoodsList(category_id,status,obyzd); 
+						console.log($("#price").attr("src"));
+						$("#price").attr("src","images/ud.png");
+					}
+					//送合币
+					if(status==4){ 
+						var obyzd = 'give_point';
+						getGoodsList(category_id,status,obyzd); 
+						$("#price").attr("src","images/ud.png");
+					}
+					//兑换区
+					if(status==5){
+						var obyzd = 'point_exchange_type';
+						getGoodsList(category_id,status,obyzd); 
+						$("#price").attr("src","images/ud.png");
+					}
+					
+				});
+			})
+			
+			//规格
+			function getSpec(category_id){
+				mui.ajax(app.getServerUrl() +'/index.php?s=/api/goods/getGoodsBrands&token='+localStorage.getItem('token'),{
+					data:{
+						category_id: category_id
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log("商品规格："+JSON.stringify(data)); 
+						return false;
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						mui.toast(type); 
+					} 
+				});
+			}
+			//综合列表
+			function getGoodsList(category_id,status,obyzd,sort){
+				console.log(obyzd);
+				if(sort==undefined){
+					sort='';
+				}
+				if(obyzd==undefined){
+					obyzd='';
+				}
+				console.log(sort);
+				mui.ajax(app.getServerUrl() +'/index.php?s=/api/goods/getGoodsList&token='+localStorage.getItem('token'),{
+					data:{
+						page: page,
+						page_size: page_size,
+						category_id: category_id,
+						obyzd: obyzd,
+						sort: sort
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+//						console.log("商品列表："+JSON.stringify(data));  
+						var html='';
+						if(data==null){
+							html += '<div style="font-size:1.4rem; text-align: center;height:3rem;line-height:3rem;">暂时没有商品信息...</div>';
+							$("#item"+status+"").html(html); 
+//							console.log("#item"+status+"");
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+							return false;
+						}else{
+							mui.each(data.data,function(index, item) { 
+								html +='<div class="recommend-con mui-pull-left" data-goodsid="'+item.goods_id+'" data-point="'+item.point_exchange_type+'">';
+								html +='<img src="' + imgUrl + item.pic_cover + '" />';
+								html +='<div class="recommend-title mui-ellipsis-2">'+item.goods_name+'</div>';
+								html +='<div class="recommend-bottom">';
+								html +='<div class="recommend-bottom-top mui-clearfix">';
+								html +='<div class="hebin mui-pull-left">';
+								html +='<img src="images/hebin1.png" />';
+								html +='<div class="zhb">赠合币</div>';
+								html +='<div class="num">'+item.give_point+'</div>'; 
+								html +='</div>'; 
+								html +='<span class="mui-block mui-pull-right">已售: '+item.real_sales+'件</span>';
+								html +='</div>';
+								html +='<div class="recommend-bottom-bom mui-clearfix">';
+								html +='<span class="mui-block mui-pull-left red">&yen;'+item.promotion_price+'</span>';
+								html +='<span class="mui-block mui-pull-left gray">&yen;'+item.market_price+'</span>';
+								html +='<span class="mui-block mui-pull-right">剩余: '+item.stock+'件</span>';
+								html +='</div>';
+								html +='</div>';
+								if(item.is_new==1){ 
+									html +='<div class="xinpin"><img src="images/xinpin.png" style="width: 5rem; height: 5rem; border:none;"/></div>';
+								}
+								html +='</div>';
+							})
+							page_total = data.page_count;
+//							console.log("总页数："+page_total);
+							if(page == 1){ 
+//								console.log("1当前页: "+page); 
+								$("#item"+status+"").html(html); 
+							}else if(page<=page_total){
+								$("#item"+status+"").append(html);
+								mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+								return false;
+							}else{
+								mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+								return false;
+							}
+							
+						}
+						
+//						$("#item"+status+"").html(html); 
+						//商品详情
+							mui('.recommend-list').on('tap', '.recommend-con', function() {
+								var goods_id = this.getAttribute("data-goodsid");
+								var point_exchange_type = this.getAttribute("data-point");
+								if(point_exchange_type==0){
+									mui.openWindow({
+										id: 'goods_details',
+										url: 'goods_details.html', 
+										extras: { 
+											goods_id: goods_id
+										},
+										waiting: { 
+											autoShow: true, //自动显示等待框，默认为true
+											title: '正在加载...' //等待对话框上显示的提示内容
+										}
+									});
+								}else{
+									mui.openWindow({
+										id: 'goods_details1',
+										url: 'goods_details1.html', 
+										extras: { 
+											goods_id: goods_id
+										},
+										waiting: { 
+											autoShow: true, //自动显示等待框，默认为true
+											title: '正在加载...' //等待对话框上显示的提示内容
+										}
+									});
+								}
+							});
+					}, 
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						mui.toast(type); 
+					}
+				});
+			}
+			
+			//获取轮播图 
+			function lunBo() {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/goodsLunbt&token='+localStorage.getItem('token'), {
+					data: {},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+//						console.log("轮播图："+JSON.stringify(data));
+//						return false;
+						if(JSON.stringify(data) != "{}") {
+							var html = '';
+							var length = data.adv_list.length;
+							var j = length - 1; 
+							var moImg = data.adv_list[0].adv_image;
+							var moTitle = data.adv_list[0].adv_title;
+							var moImg1 = data.adv_list[j].adv_image;
+							var moTitle1 = data.adv_list[j].adv_title;
+							var str = '';
+							html += '<div class="mui-slider-item mui-slider-item-duplicate"><a data-type="' + data.adv_list[j].adv_id + '" data-id="' + data.adv_list[j].adv_url + '"><img src="' + imgUrl + moImg1 + '" class="lazy" alt="' + moTitle1 + '"></a></div>';
+							mui.each(data.adv_list, function(index, item) {
+								html += '<div class="mui-slider-item"><a data-type="' + item.adv_id + '" data-id="' + item.adv_url + '"><img src="' + imgUrl + item.adv_image + '" class="lazy" alt="' + item.adv_title + '"></a></div>';
+	
+								if(index == 0) {
+									str += '<div class="mui-indicator mui-active"></div>';
+								} else {
+									str += '<div class="mui-indicator"></div>';
+								}
+							}); 
+	
+							html += '<div class="mui-slider-item mui-slider-item-duplicate"><a data-type="' + data.adv_list[0].adv_id + '" data-id="' + data.adv_list[0].adv_url + '"><img src="' + imgUrl + moImg + '" class="lazy" alt="' + moTitle + '"></a></div>';
+	
+							document.getElementById("lunbo").innerHTML = html;
+							document.getElementById("lunbo2").innerHTML = str;
+							var gallery = mui('.mui-slider'); 
+							gallery.slider({
+								interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；
+							});
+						}
+						
+						mui('#lunbo').on('tap', '.mui-slider-item a', function() {
+							var id = this.getAttribute("data-id");
+							console.log(id);
+							if(id=='#'){
+								return false;
+							}else{
+								mui.openWindow({
+									id: 'goods_details',
+									url: 'goods_details.html', 
+									extras: { 
+										goods_id: id
+									},
+									waiting: { 
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							}
+							
+						})
+						
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+						mui.toast(type); 
+					} 
+				}); 
+			}
+			
+			//上拉加载
+			function pull_up() {  
+				page++;
+				var status = document.getElementById("status_val").value;
+				//综合列表
+					if(status==0){
+						getGoodsList(category_id,status); 
+						$("#price").attr("src","images/ud.png");
+					}
+					//销量
+					if(status==1){
+						var obyzd = 'sales';
+						getGoodsList(category_id,status,obyzd); 
+						$("#price").attr("src","images/ud.png");
+					}
+					//价格
+					if(status==2){ 
+						var obyzd = 'promotion_price';
+//						console.log($(this).children().attr("src"));
+						if($(this).children().attr("src")=='images/ud.png'){
+							$(this).children().attr("src","images/up.png");
+							var sort = 'asc';
+							getGoodsList(category_id,status,obyzd,sort); 
+						}else if($(this).children().attr("src")=='images/up.png'){
+							$(this).children().attr("src","images/down.png");
+							var sort = 'desc';
+							getGoodsList(category_id,status,obyzd,sort); 
+						}else{
+							$(this).children().attr("src","images/up.png");
+							var sort = 'asc';
+							getGoodsList(category_id,status,obyzd,sort); 
+						}
+						
+					}
+					//新品
+					if(status==3){
+						var obyzd = 'is_new';
+						getGoodsList(category_id,status,obyzd); 
+						console.log($("#price").attr("src"));
+						$("#price").attr("src","images/ud.png");
+					}
+					//送合币
+					if(status==4){ 
+						var obyzd = 'give_point';
+						getGoodsList(category_id,status,obyzd); 
+						$("#price").attr("src","images/ud.png");
+					}
+					//兑换区
+					if(status==5){
+						var obyzd = 'point_exchange_type';
+						getGoodsList(category_id,status,obyzd); 
+						$("#price").attr("src","images/ud.png");
+					}
+			} 
+			//下拉刷新
+			function push_down() { 
+				mui('#refreshContainer').pullRefresh().refresh(true);
+				page = 1;
+				var status = document.getElementById("status_val").value;
+				//综合列表
+					if(status==0){
+						getGoodsList(category_id,status); 
+						$("#price").attr("src","images/ud.png");
+					}
+					//销量
+					if(status==1){
+						var obyzd = 'sales';
+						getGoodsList(category_id,status,obyzd); 
+						$("#price").attr("src","images/ud.png");
+					}
+					//价格
+					if(status==2){ 
+						var obyzd = 'promotion_price';
+//						console.log($(this).children().attr("src"));
+						if($(this).children().attr("src")=='images/ud.png'){
+							$(this).children().attr("src","images/up.png");
+							var sort = 'asc';
+							getGoodsList(category_id,status,obyzd,sort); 
+						}else if($(this).children().attr("src")=='images/up.png'){
+							$(this).children().attr("src","images/down.png");
+							var sort = 'desc';
+							getGoodsList(category_id,status,obyzd,sort); 
+						}else{
+							$(this).children().attr("src","images/up.png");
+							var sort = 'asc';
+							getGoodsList(category_id,status,obyzd,sort); 
+						}
+						
+					}
+					//新品
+					if(status==3){
+						var obyzd = 'is_new';
+						getGoodsList(category_id,status,obyzd); 
+						console.log($("#price").attr("src"));
+						$("#price").attr("src","images/ud.png");
+					}
+					//送合币
+					if(status==4){ 
+						var obyzd = 'give_point';
+						getGoodsList(category_id,status,obyzd); 
+						$("#price").attr("src","images/ud.png");
+					}
+					//兑换区
+					if(status==5){
+						var obyzd = 'point_exchange_type';
+						getGoodsList(category_id,status,obyzd); 
+						$("#price").attr("src","images/ud.png");
+					}
+				mui('#refreshContainer').pullRefresh().endPulldown();
+			}
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.login-bg{
+				margin-top: 5rem;
+			}
+			.login-bg .login-box .input-row input {
+			    width: 50%;
+			    padding-left:5px;
+			}
+			.login-bg .login-box {
+			    padding: 1rem 0px 5rem 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">登录</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="login-bg">
+				<div class="login-box">
+					<div class="input-row">
+						<input type="number" id="phone" value="" placeholder="请输入手机号" autofocus="autofocus"/>
+						<img src="images/phone.png" class="mui-pull-right phone" />
+					</div>
+					<div class="input-row mui-clearfix">
+						<input type="password" id="pwd" value="" placeholder="请输入密码"/>
+						<img src="images/pwd.png" class="mui-pull-right pwd" />
+					</div>
+					
+					<div class="login-btn">
+						<span class="mui-text-center" id="login" style="background-color: #037f55;">登录</span>
+					</div>
+					<div class="login-btn1 jump">
+						<span class="mui-text-center" data-url="reg.html" data-id="reg">立即注册</span>
+					</div>
+					<div class="forget-pwd jump">
+						<span data-url="pwd_back.html" data-id="pwd_back">忘记密码？</span>
+					</div>
+					<div class="wechat">
+						<img src="images/wechat.png" data-url="bind_phone.html" data-id="bind_phone"/>
+					</div>
+				</div>
+			</div>
+		</div> 
+		<script type="text/javascript" src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/yzm.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function(){
+				plus.navigator.setStatusBarBackground('#fff');
+				plus.navigator.setStatusBarStyle('dark');  
+				mui('.jump').on('tap', 'span', function() {
+					var url = this.getAttribute('data-url');
+					var id = this.getAttribute('data-id');
+					mui.openWindow({
+						url: url,  
+						id: id,
+						waiting: { 
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				});
+				//监听注册按钮
+				document.getElementById("login").addEventListener('tap', function(event) {
+					var phone = document.getElementById("phone").value; //手机号
+					var status = checkMobile(phone);  //验证输入的手机号是否正确
+					if(status == false) {
+						return false;
+					}
+//					console.log(phone);
+					//检验手机号是否存在
+					mui.ajax(app.getServerUrl() + '/index.php?s=/api/login/mobile', {
+						data: {
+							mobile: phone
+						},
+						dataType: 'json', //服务器返回json格式数据 
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							console.log(JSON.stringify(data));
+							if(data==false){
+								mui.toast("该手机号不存在！");
+								return false;
+							}else{
+								var password = document.getElementById("pwd").value; //密码
+//								console.log(password);
+								if(password.length <=0) {
+									mui.toast('密码不能为空！');
+									return false;
+								}
+								mui.ajax(app.getServerUrl() + '/index.php?s=/api/login/register_login',{
+									data:{
+										mobile: phone,
+										password: password
+									},
+									dataType:'json',//服务器返回json格式数据
+									type:'post',//HTTP请求类型
+									timeout:10000,//超时时间设置为10秒；
+									success:function(data){
+										console.log(JSON.stringify(data));
+										if(data.code==200){
+											mui.toast(data.message);
+											localStorage.setItem('token', data.token);
+											var token = localStorage.getItem('token'); 
+											mui.openWindow({ 
+												url: 'main.html',
+												id: 'main'
+											});
+										}else{
+											mui.toast(data.message);
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										console.log(type);
+										mui.toast(type);
+									}
+								});
+							}
+						},
+						error: function(xhr, type, errthrow) {
+							console.log(type);
+							mui.toast('服务器错误，请稍后重试');
+						}
+					});
+					
+					
+				});
+				
+				
+			})
+			
+			//验证手机号码传入手机号码的值即可使用
+			function checkMobile(phone) {
+				if(phone.length <= 0) {
+					mui.toast('手机号码不能为空');
+					return false;
+				}
+
+				if(!(/^1[3|4|5|7|8|9][0-9]\d{4,8}$/.test(phone))) {
+					mui.toast('手机号格式不正确');
+					return false;
+				}
+
+				return true;
+			}
+		</script>
+	</body>
+
+</html>

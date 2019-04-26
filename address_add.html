@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>九和居-新建收货地址</title>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/mui.picker.css" />
+		<link rel="stylesheet" href="css/mui.poppicker.css" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.mui-input-group .mui-input-row{
+				border-bottom: 1px solid #e5e1e1;
+				height: 4rem;
+				/*line-height: 3.5rem;*/
+			}
+			.mui-scroll-wrapper{ 
+				background-color: #fafafa;
+			}
+			.mui-input-row label,.mui-input-row1 label{
+				padding: 15px;
+				color: #333;
+			}
+			.mui-input-row1 label{
+				width: 36%;
+			}
+			.mui-input-row1 textarea{
+				width: 64%;
+				font-size: 1.5rem; 
+				margin-top: 1%;
+			}
+			::-webkit-input-placeholder{
+				color: #999;
+			}   
+			:-moz-placeholder{
+				color: #999;
+			}                  
+			::-moz-placeholder{
+				color: #999;
+			}                 
+			:-ms-input-placeholder{
+				color: #999;
+			}           
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">新建收货地址</h1>
+			<a class="mui-icon mui-pull-right" style="font-size: 1.5rem;color: #666;padding-top:13px;" id="save">保存</a>
+		</header>
+		<div class="mui-content mui-scroll-wrapper address-add">
+			<div class="mui-input-group">
+				<div class="mui-input-row mui-clearfix">
+					<label style="width: 40%;"><span class="red">*</span>收货人姓名：</label>
+					<input id='consigner' type="text" class="mui-input" placeholder="请输入收货人姓名" style="width: 60%;">
+				</div>
+				<div class="mui-input-row mui-clearfix">
+					<label><span class="red">*</span>手机号：</label>
+					<input id='mobile' type="number" class="mui-input" placeholder="请输入手机号">
+				</div>
+				<div class="mui-input-row mui-clearfix" id='showCityPicker'>
+					<label><span class="red">*</span>省市区：</label>
+						<input id='cityResult' type="text" readonly="readonly" class="mui-input" placeholder="请点击选择省-市-区">
+						<input type="hidden" id="province" value="0" />
+						<input type="hidden" id="city" value="0" />
+						<input type="hidden" id="district" value="0" />
+				</div>
+				<div class="mui-input-row1 mui-clearfix">
+					<label class="mui-pull-left"><span class="red">*</span>详细地址：</label>
+					<textarea class="mui-pull-left" id="address" rows="3"  placeholder="请输入详细地址"></textarea> 
+				</div>
+			</div>
+			<!--<div class="big-btn">
+				<span>保存</span>
+			</div>-->
+		</div>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		
+		<script type="text/javascript" src="js/mui.picker.js" ></script>
+		<script type="text/javascript" src="js/mui.poppicker.js" ></script>
+		<script type="text/javascript" src="js/city.data-3.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					/**
+					 * 获取对象属性的值
+					 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+					 * @param {Object} obj 对象
+					 * @param {String} param 属性名
+					 */
+					var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					//-----------------------------------------
+					//					//级联示例
+					var cityPicker = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPicker');
+					var cityResult = doc.getElementById('cityResult');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						cityPicker.show(function(items) {
+							cityResult.value = "" + _getParam(items[0], 'text') + "-" + _getParam(items[1], 'text') + "-" + _getParam(items[2], 'text');
+//							console.log(JSON.stringify(_getParam(items[0], 'text'))); 
+							document.getElementById("province").value = _getParam(items[0], 'text');
+							document.getElementById("city").value = _getParam(items[1], 'text');
+							document.getElementById("district").value = _getParam(items[2], 'text');
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+				});
+			})(mui, document);
+			
+			mui.plusReady(function(){
+				document.getElementById("save").addEventListener('tap', function(event) {
+					var consigner = $('#consigner').val();  //收件人
+					var mobile = $('#mobile').val();  
+					var province = $('#province').val();  
+					var city = $('#city').val(); 
+					var district = $('#district').val(); 
+					var address = $('#address').val(); 
+					console.log(consigner+"--"+mobile+"--"+province+"--"+city+"--"+district+"--"+address);
+					mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/addMemberAddress&token='+localStorage.getItem('token'),{
+						data:{
+							consigner: consigner,
+							mobile: mobile,
+							province: province,
+							city: city,
+							district: district,
+							address: address
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							if(data.code>0){
+								mui.toast("保存成功");
+								var list = plus.webview.currentWebview().opener();
+						　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+						        mui.fire(list, 'refresh');
+						        //返回true,继续页面关闭逻辑
+						        return true;
+								mui.openWindow({
+									url: 'address_message.html',
+									id: 'address_message'
+								});
+							}else{
+								mui.toast("保存失败");
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							console.log(type);
+							mui.toast(type);
+						}
+					});
+				})
+			})
+			
+		</script>
+	</body>
+
+</html>

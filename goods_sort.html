@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>商品分类</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link href="css/mui.css" rel="stylesheet"/>
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style>
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				height: 100%;
+			} 
+			.mui-col-xs-3,
+			.mui-control-content {
+				overflow-y: auto;
+				height: 100%;
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 50px;
+				width: 100%;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				background-color: #e3e4e6;
+				color: #036342;
+			}
+
+			.mui-table-view-cell:after {
+				background-color: initial;
+			}
+			.mui-table-view:before,.mui-table-view:after{
+				background-color: #fff;
+			}
+			.mui-table-view1{
+				width: 100%;
+				padding: 0;
+				margin: 0;
+			}
+			.mui-table-view1 .mui-table-view-cell{
+				width: 33.3%;
+				float: left;
+				padding: 5px 15px;
+			}
+			.mui-table-view1 .mui-table-view-cell img{
+				width: 60px;
+				height: 60px;
+				border: 1px solid #F7F7F7;
+				box-sizing: border-box;
+			}
+			.mui-table-view1 .mui-table-view-cell span{
+				display: inline-block;
+				width: 100%;
+				text-align: center;
+				font-size: 1.2rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">商品分类</h1>
+		</header>
+		<div class="mui-content mui-row mui-fullscreen" id="refreshContainer">
+			<div class="mui-col-xs-3" style="background: #f0f1f2;">
+				<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+					<!--<a class="mui-control-item mui-active" href="#content1">家具</a>
+					<a class="mui-control-item" href="#content2">家电</a>
+					<a class="mui-control-item" href="#content3">家装</a>
+					<a class="mui-control-item" href="#content4">家居</a>
+					<a class="mui-control-item" href="#content5">家纺</a>
+					<a class="mui-control-item" href="#content6">厨卫</a>-->
+				</div>
+			</div>
+			<div id="segmentedControlContents" class="mui-col-xs-9">
+				<!--<div id="content1" class="mui-control-content mui-active">
+					<div class="sort-title">
+						<span>沙发</span>
+					</div>
+					<ul class="mui-table-view1 mui-clearfix">
+						<li class="mui-table-view-cell">
+							<img src="images/sort1.png" /> 
+							<span class="mui-ellipsis">真皮沙发</span>
+						</li> 
+						<li class="mui-table-view-cell">
+							<img src="images/banner.png" /> 
+							<span class="mui-ellipsis">布艺沙发</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<img src="images/sort1.png" /> 
+							<span class="mui-ellipsis"> 实木沙发</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<img src="images/banner.png" /> 
+							<span class="mui-ellipsis">布艺沙发</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<img src="images/sort1.png" /> 
+							<span class="mui-ellipsis"> 实木沙发</span>
+						</li>
+					</ul>
+					
+					<div class="sort-title">
+						<span>沙发</span>
+					</div>
+					<ul class="mui-table-view1 mui-clearfix">
+						<li class="mui-table-view-cell">
+							<img src="images/sort1.png" /> 
+							<span class="mui-ellipsis">真皮沙发</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<img src="images/banner.png" /> 
+							<span class="mui-ellipsis">布艺沙发</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<img src="images/sort1.png" /> 
+							<span class="mui-ellipsis"> 实木沙发</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<img src="images/banner.png" /> 
+							<span class="mui-ellipsis">布艺沙发</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<img src="images/sort1.png" /> 
+							<span class="mui-ellipsis"> 实木沙发</span>
+						</li>
+					</ul>
+					
+					
+				</div>-->
+				
+				
+				<!--<div id="content2" class="mui-control-content">-->
+					<!--<div class="sort-title">
+						<span>沙发</span>
+					</div>
+					<ul class="mui-table-view1 mui-clearfix">
+						<li class="mui-table-view-cell">
+							<img src="images/sort1.png" /> 
+							<span class="mui-ellipsis">真皮沙发</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<img src="images/banner.png" /> 
+							<span class="mui-ellipsis">布艺沙发</span>
+						</li>
+
+					</ul>-->
+				<!--</div>-->
+				<!--<div id="content3" class="mui-control-content">
+				</div>
+				<div id="content4" class="mui-control-content">
+				</div>
+				<div id="content5" class="mui-control-content">
+				</div>
+				<div id="content6" class="mui-control-content">
+				</div>-->
+
+
+			</div>
+		</div>
+		<input type="hidden" value="0" id="index"/>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script src="js/jquery-3.3.1.min.js"></script>
+
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var index = self.index;
+				$("#index").val(index);
+				getList();
+			});
+			var imgUrl = app.getServerUrl() + '/'; 
+			function getList() { 
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/goods/goodsCategoryList&token='+localStorage.getItem('token'), {
+					data: {},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；    
+					success: function(data) {  
+//						console.log("分类列表:"+JSON.stringify(data));  
+						if(data.length > 0) {
+							var html = '';
+							mui.each(data, function(index, item) {
+								html += '<a class="mui-control-item" href="#content' + index + '">' + item.category_name + '</a>';
+								var str = '';
+								if(item.child_list) {
+									str += '<div id="content' + index + '" class="mui-control-content">';
+									mui.each(item.child_list, function(ix, it) {
+										str += '<div class="sort-title"><span>' + it.category_name + '</span></div>';
+										str += '<ul class="mui-table-view1 mui-clearfix">';
+										if(it.child_list){
+											mui.each(it.child_list, function(i,t) {
+												str += '<li class="mui-table-view-cell" data-categoryid="'+it.category_id+'">';
+												str += '<img src="' + imgUrl + t.category_pic + '" /> '; 
+												str += '<span class="mui-ellipsis">' + t.category_name + '</span>';
+												str += '</li>';
+											})
+										}else{
+											str += '<li class="mui-table-view-cell">';
+											str += '</li>';
+										}
+										str += '</ul>';
+									});
+									str +='</div>';
+								} else {
+									str += '<div id="content' + index + '" class="mui-control-content"><ul class="mui-table-view">';
+									str += '</ul></div>';
+								}
+								$('#segmentedControlContents').append(str);
+							});
+							 
+							$("#segmentedControls").html(html);
+							var index = $("#index").val();
+							$('#segmentedControlContents div').eq(index).addClass('mui-active');
+							$('#segmentedControls a').eq(index).addClass('mui-active');
+							//商品列表
+							mui('.mui-table-view1').on('tap', '.mui-table-view-cell', function() {
+								var category_id = this.getAttribute("data-categoryid");
+								mui.openWindow({
+									id: 'goods_list',
+									url: 'goods_list.html', 
+									extras: { 
+										category_id: category_id
+									},
+									waiting: { 
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							});
+							
+							
+							
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+			
+		</script>
+	</body>
+
+</html>

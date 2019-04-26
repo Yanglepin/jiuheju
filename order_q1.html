@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>九和居-确认订单</title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.order-list:not(:last-child){
+				border-bottom: 1px solid #F0F1F2;
+				margin-bottom: 2%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">确认订单</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper order-q">
+			<div class="top-title">收货信息</div>
+			<div class="infomation mui-clearfix">
+				<!--<div class="mui-pull-left">
+					<p>收货人：徐先生</p>
+					<p>联系电话：15538156896</p>
+					<p>收货地址：郑州市二七区大学路陇海路交叉口南3000米，金海社区</p>
+				</div>
+				<div class="mui-pull-right">
+					>
+				</div>-->
+			</div>
+			<div class="goods-info">
+				
+				<!--<div class="order-list mui-clearfix">
+					<div class="mui-pull-left">
+						<img src="images/banner.png" />
+					</div>
+					<div class="mui-pull-right mui-clearfix">
+						<p class="goods-tit mui-pull-left mui-ellipsis-2">九和居 全铜龙头淋浴花洒套装 淋浴花洒喷头九和居 全铜龙头淋浴花洒套装 淋浴花洒喷头九和居 全铜龙头淋浴花洒套装 淋浴花洒喷头</p>
+						<span class="mui-block mui-pull-right red">￥1200.00 </span>
+						<span class="mui-block mui-pull-right">X 1</span>
+					</div>
+				</div>-->
+				
+			</div>
+
+			<div class="mui-clearfix b-area">
+				<div class="mui-pull-left">
+					备注：
+				</div>
+				<div class="mui-pull-right">
+					<textarea placeholder="" rows="3" id="leavemessage"></textarea>
+				</div>
+			</div>
+			<div style="min-height: 50px;"></div>
+			<div class="cart-footer mui-clearfix">
+				<div class="mui-pull-left">
+					实付：<span class="red">&yen;1200.00</span>
+				</div>
+				<div class="mui-pull-right">
+					<img src="images/green-btn.png" />
+					<span class="mui-block">确认付款</span>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" charset="utf-8"> 
+			mui.init();
+			var imgUrl = app.getServerUrl() + '/';
+			window.addEventListener('list', function(event) {
+                //获得事件参数
+                var consigner= event.detail.consigner;
+                var mobile= event.detail.mobile;
+                var provinces= event.detail.provinces;
+                var citys= event.detail.citys;
+                var districts= event.detail.districts;
+                var address= event.detail.address;   
+                if(consigner.length>0||mobile.length>0||provinces.length>0||citys.length>0||districts.length>0||address.length>0){
+					var html = '';
+					html +='<div class="mui-pull-left">';
+					html +='<p>收货人：'+consigner+'</p>';
+					html +='<p>联系电话：'+mobile+'</p>';
+					html +='<p>收货地址：'+provinces+' '+citys+' '+districts+' '+address+'</p>';
+					html +='</div>';
+					html +='<div class="mui-pull-right">></div>';
+					$(".infomation").html(html);
+				}
+    		});
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				sku_list = self.sku_list;
+				console.log(sku_list);
+				getOrderList(sku_list);
+			})
+			//确认订单列表
+			function getOrderList(sku_list) {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/order/gerDaiPayOrderInfo&token=' + localStorage.getItem('token'), {
+					data: {
+						sku_list: sku_list.toString(),
+						order_tag: 'cart' 
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log("确认订单列表： "+JSON.stringify(data.data)); 
+						var data = data.data;
+						var html = '';
+						html +='<div class="mui-pull-left">';
+						html +='<p>收货人：'+data.address.consigner+'</p>';
+						html +='<p>联系电话：'+data.address.mobile+'</p>';
+						html +='<p>收货地址：'+data.address.provinces+' '+data.address.citys+' '+data.address.districts+' '+data.address.address+'</p>';
+						html +='</div>';
+						html +='<div class="mui-pull-right">></div>';
+						$(".infomation").html(html);
+						var html1='';
+						var subtotal=0;
+						mui.each(data.itemlist,function(index,item){
+							html1+='<div class="order-list mui-clearfix">';
+							html1+='<div class="mui-pull-left">';
+							html1+='<img src="' + imgUrl + item.picture_info.pic_cover + '" />';
+							html1+='</div>';
+							html1+='<div class="mui-pull-right mui-clearfix">';
+							html1+='<p class="goods-tit mui-pull-left mui-ellipsis-2">'+item.goods_name+'</p>';
+							html1+='<span class="mui-block mui-pull-right red">&yen;'+item.price+'</span>';
+							html1+='<span class="mui-block mui-pull-right">X '+item.num+'</span>';
+							html1+='</div></div>';
+							subtotal = subtotal + parseFloat(item.subtotal);
+						})
+						$(".goods-info").html(html1);
+						$(".cart-footer .mui-pull-left").html('实付：<span class="red">&yen;'+subtotal+'</span>');
+						//修改收货地址
+						mui('.infomation').on('tap', '.mui-pull-right', function() {
+							mui.openWindow({
+								url:'address_message.html',
+								id:'address_message'
+							})
+//							plus.webview.currentWebview().close();  
+						})
+						//确认付款
+						mui('.cart-footer').on('tap', '.mui-pull-right', function() {
+							var leavemessage = $("#leavemessage").val();
+							console.log(leavemessage);
+							console.log(sku_list); 
+							mui.ajax(app.getServerUrl() + '/index.php?s=/api/order/orderCreate&token=' + localStorage.getItem('token'),{
+								data:{
+									goods_sku_list: data.goods_sku_list,
+									leavemessage: leavemessage
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'post',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function(data){
+									console.log(JSON.stringify(data));
+									getPayValue(data.code);  //
+								}, 
+								error:function(xhr,type,errorThrown){
+									mui.toast(type);
+									console.log(type);
+								}
+							});
+						})
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+			//订单已提交确认付款判断订单是否正确接口
+			function getPayValue(out_trade_no){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/pay/getPayValue&token=' + localStorage.getItem('token'),{
+					data:{
+						out_trade_no: out_trade_no.toString()
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(JSON.stringify(data));
+						if(data.code>0){
+							/*console.log(data.data.out_trade_no);
+							console.log(data.data.pay_money);*/
+							mui.openWindow({
+								id: 'pay_order',
+								url: 'pay_order.html',
+								extras: { 
+									out_trade_no: data.data.out_trade_no,
+									pay_money: data.data.pay_money
+								},
+								waiting: {
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								}
+							})
+						}else{
+							mui.toast(data.message);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>九和居-收货地址管理</title>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/mui.picker.css" />
+		<link rel="stylesheet" href="css/mui.poppicker.css" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.mui-radio input[type='radio']:before, .mui-checkbox input[type='checkbox']:before{
+				font-size: 23px;
+			}
+			.mui-content{
+				background-color: #fafafa;
+			}
+		</style>
+	</head>
+ 
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">收货地址管理</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="address-message">
+				<!--<div class="address-box">
+					<div class="mui-input-row mui-checkbox mui-left">
+						<label>设为默认</label>
+						<input name="checkbox" value="" type="checkbox" style="top: 6px;" checked="checked">
+						<span class="mui-icon mui-icon-trash mui-pull-right delete"></span>
+					</div>
+					<div class="address-list">
+						<p><span class="show">默认</span>瘦牛 123456789</p>
+						<p>河南省 郑州市 金水区 路劲大厦1119室路劲大厦1119室 路劲大厦1119室</p>
+					</div>
+				</div>-->
+				<!--<div class="address-box">
+					<div class="mui-input-row mui-checkbox mui-left">
+						<label>设为默认</label>
+						<input name="checkbox" value="" type="checkbox" style="top: 6px;">
+						<span class="mui-icon mui-icon-trash mui-pull-right delete"></span>
+					</div>
+					<div class="address-list">
+						<p><span class="show">默认</span>瘦牛 123456789</p>
+						<p>河南省 郑州市 金水区 路劲大厦1119室路劲大厦1119室 路劲大厦1119室</p>
+					</div>
+				</div>-->
+			</div>
+			<div class="address-foot" id="addAddress">
+				<img src="images/green-btn.png"/>
+				<span class="mui-block">+新建收货地址</span>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			window.addEventListener('refresh', function(e) {
+				location.reload();
+				plus.webview.close("address_add"); 
+			});
+			mui.plusReady(function(){ 
+				//新建收货地址
+				document.getElementById('addAddress').addEventListener('tap', function() {
+					mui.openWindow({
+						id: 'address_add',
+						url: 'address_add.html',  
+						extras: { 
+
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				});
+				getAddressMessage(); 
+			})
+			//地址列表
+			function getAddressMessage(){ 
+				console.log(localStorage.getItem('token'));  
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/memberAddress&token='+localStorage.getItem('token'),{ 
+					data:{
+
+					},
+					dataType:'json',//服务器返回json格式数据 
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒； 
+					success:function(data){
+//						console.log(JSON.stringify(data));
+						var html = '';
+						if(data.total_count>0){ 
+							mui.each(data.data,function(index,item){  
+								html+='<div class="address-box">';
+								html +='<div class="mui-input-row mui-checkbox mui-left">';
+								html +='<label>设为默认</label>';
+								if(item.is_default==1){
+									html +='<input name="checkbox" value="" type="checkbox" checked="checked" style="top: 6px;" data-id="'+item.id+'" class="shezhi">';
+									html +='<span class="mui-icon mui-icon-trash mui-pull-right delete" data-id="'+item.id+'"></span>';
+									html +='</div>';
+									html +='<div class="address-list" data-sid="'+item.id+'" data-consigner="'+item.consigner+'" data-mobile="'+item.mobile+'" data-provinces="'+item.provinces+'"data-citys="'+item.citys+'" data-districts="'+item.districts+'" data-address="'+item.address+'">';
+									html +='<p>';
+									html +='<span class="show">默认</span>'; 
+								}else{
+									html +='<input name="checkbox" value="" type="checkbox" style="top: 6px;" data-id="'+item.id+'" class="shezhi">';
+									html +='<span class="mui-icon mui-icon-trash mui-pull-right delete" data-id="'+item.id+'"></span>';
+									html +='</div>';
+									html +='<div class="address-list" data-sid="'+item.id+'" data-consigner="'+item.consigner+'" data-mobile="'+item.mobile+'" data-provinces="'+item.provinces+'"data-citys="'+item.citys+'" data-districts="'+item.districts+'" data-address="'+item.address+'">';
+									html +='<p>';
+								}
+								html +=''+item.consigner+'  '+item.mobile+'</p>';
+								html +='<p>'+item.provinces+' '+item.citys+' '+item.districts+' '+item.address+'</p>';
+								html +='</div>';
+								html +='</div>';
+							}) 
+						}else{
+							html +='<div style="text-align:center;font-size:1.5rem; height:10rem;line-height:10rem;">没有收货地址.....</div>';
+						}
+						$(".address-message").html(html);
+						//删除默认地址
+						mui('.mui-input-row').on('tap', 'span.delete', function() {
+							console.log("000");
+							var id = this.getAttribute('data-id');
+							DeleteAddress(id);
+							getAddressMessage(); 
+						});
+						//设置默认
+						mui('.mui-input-row').on('tap', 'input', function() {
+							var id = this.getAttribute('data-id');
+							updateAddressDefault(id);
+							getAddressMessage(); 
+						});
+						mui('.address-box').on('tap', '.address-list', function() {
+						    var apage = plus.webview.currentWebview().opener();
+						     var sid = this.getAttribute('data-sid');
+//						     console.log(sid);
+						    if(apage.id=='wode'){
+						    	mui.openWindow({
+						    		id: 'address_update',
+									url: 'address_update.html',
+									extras: { 
+										sid: sid
+									},
+									waiting: {
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+						    	})
+						    }else{
+						    	var consigner = this.getAttribute('data-consigner');
+								var mobile = this.getAttribute('data-mobile');
+								var provinces = this.getAttribute('data-provinces');
+								var citys = this.getAttribute('data-citys');
+								var districts = this.getAttribute('data-districts');
+								var address = this.getAttribute('data-address');
+								mui.fire(apage, 'list',{ 
+							    	consigner: consigner,
+							    	mobile: mobile,
+							    	provinces: provinces,
+							    	citys: citys,
+							    	districts: districts,
+							    	address: address
+							   	});
+						    apage.show();
+						    }
+						});
+						
+						
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						mui.toast(type);
+					}
+				});
+			}
+			//设置默认地址
+			function updateAddressDefault(id){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/updateAddressDefault&token='+localStorage.getItem('token'),{
+					data:{
+						id: id
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(JSON.stringify(data));
+						if(data.code==1){
+							mui.toast("设置成功！");
+						}else{
+							mui.toast("设置失败！");
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						mui.toast(type);
+					}
+				});
+			}
+			//删除地址
+			function DeleteAddress(id){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/memberAddressDelete&token='+localStorage.getItem('token'),{
+					data:{
+						id: id
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(JSON.stringify(data));
+						if(data.code==1){
+							mui.toast("删除成功！");
+						}else{
+							mui.toast(data.message);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						mui.toast(type);
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

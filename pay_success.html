@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>九和居-付款成功</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.goods-imgboxtit{
+				height: 4rem;
+				line-height: 2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="mui.back()"></a>
+			<h1 class="mui-title">付款成功</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper pay-success">
+			<div class="apply-success">
+				<div class="apply-icon">
+					<img src="images/success.png"/> 
+					<p>付款成功，谢谢！</p>
+				</div>
+				<div class="goods-recommend">
+					<div class="goods-recommendtit"><img src="images/d-title.png" /></div>
+				</div>
+				<div class="recommend-list mui-clearfix">
+					<!--<div class="goods-box mui-pull-left">
+						<div class="goods-imgbox"><img src="images/banner.png" /></div>
+						<div class="goods-imgboxtit mui-text-left mui-ellipsis-2">衣裙子 杏色</div>
+						<div class="red mui-text-left">￥740.00</div>
+						<div class="gray mui-text-left">售出：87</div>
+					</div>
+					<div class="goods-box mui-pull-left">
+						<div class="goods-imgbox"><img src="images/d1.png" /></div>
+						<div class="goods-imgboxtit mui-text-left mui-ellipsis-2">连衣裙2019春季新品女装V领网纱沙滩针织长袖连衣裙子 杏色</div>
+						<div class="red mui-text-left">￥740.00</div>
+						<div class="gray mui-text-left">售出：87</div>
+					</div>
+					<div class="goods-box mui-pull-left">
+						<div class="goods-imgbox"><img src="images/banner.png" /></div>
+						<div class="goods-imgboxtit mui-text-left mui-ellipsis-2">连衣裙2019春季新品女装V领网纱沙滩针织长袖连衣裙子 杏色</div>
+						<div class="red mui-text-left">￥740.00</div>
+						<div class="gray mui-text-left">售出：87</div>
+					</div>
+					<div class="goods-box mui-pull-left">
+						<div class="goods-imgbox"><img src="images/banner.png" /></div>
+						<div class="goods-imgboxtit mui-text-left mui-ellipsis-2">连衣裙2019春季新品女装V领网纱沙滩针织长袖连衣裙子 杏色</div>
+						<div class="red mui-text-left">￥740.00</div>
+						<div class="gray mui-text-left">售出：87</div>
+					</div>-->
+				</div>
+				<div class="more"><span>查看为您推荐更多</span></div>
+				<div style="min-height: 8rem;"></div>
+				<div class="row-list">
+					<div class="mui-row">
+						<div class="mui-col-xs-6 mui-text-center"><a href="my_order.html">查看订单</a></div>
+						<div class="mui-col-xs-6 mui-text-center index"><a href="javascript:void(0)">回首页 再看看</a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+		<script type="text/javascript">
+			mui.init(); 
+			var imgUrl = app.getServerUrl() + '/';
+			mui.plusReady(function(){
+				//精品推荐
+				getRecommend();
+				mui('.index').on('tap', 'a', function() {
+					var cPage = plus.webview.currentWebview();
+				    //获取上一级页面（B页面）
+				    var bPage = cPage.opener();
+				    //获取上一级页面的上一级页面（A页面）
+				    var aPage = bPage.opener();
+				    //关闭当前页面（C页面）、B页面和A页面
+				    cPage.close();
+				    bPage.close(); 
+//				    aPage.close();   
+				});
+				mui('.more').on('tap', 'span', function() {
+					mui.openWindow({
+						id: 'main',
+						url: 'main.html',
+						extras: { 
+							
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				});
+			})
+			//精品推荐
+			function getRecommend(){ 
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/recommendation&token='+localStorage.getItem('token'), {
+					data: {
+						page: 1,
+						page_size: 6
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log("精品推荐:"+JSON.stringify(data));  
+						var html = '';
+						mui.each(data.data,function(index, item) {
+							html +='<div class="goods-box mui-pull-left" data-goodsid="'+item.goods_id+'">';
+							html +='<div class="goods-imgbox"><img src="' + imgUrl + item.pic_cover_small + '" /></div>';
+							html +='<div class="goods-imgboxtit mui-text-left mui-ellipsis-2">'+item.goods_name+'</div>';
+							html +='<div class="red mui-text-left">&yen;'+item.promotion_price+'</div>';
+							html +='<div class="gray mui-text-left">售出：'+item.real_sales+'</div>';
+							html +='</div>';
+						})
+						$(".recommend-list").html(html);    
+						//商品详情
+						/*mui('#rightScroll').on('tap', 'a', function() {
+							var goods_id = this.getAttribute("data-goodsid");
+							mui.openWindow({
+								id: 'goods_details',
+								url: 'goods_details.html', 
+								extras: { 
+									goods_id: goods_id
+								},
+								waiting: { 
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								}
+							});
+						});*/
+						
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

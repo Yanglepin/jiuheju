@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>确认订单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app1.css" />
+	</head>
+
+	<body style="background: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">确认订单</h1>
+		</header>
+		<div class="mui-content">
+			<div class="biaodan" style="border-bottom: 5px solid #efefef;">
+				<!--<div class="quan">
+					<div class="danhao">
+						<p>订单号:21542141245154<span style="float: right;color:#036342">已申请</span></p>
+					</div>
+				</div>
+				<div class="tong">
+					<div class="zuo">
+						<img src="images/v3.png">
+					</div>
+					<div class="you">
+						<p>九和居 北欧小户型布艺沙发 组合沙发 日式客厅家具 三人位</p>
+						<span style="float: right;color: #f80219;">元币:1590</span>
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="shi">
+					<p>2019-03-15 10:35:26</p>
+				</div>-->
+			</div>
+			<div class="zhuang">
+				<div class="da">
+					<div class="die">
+						<img src="images/v7.png" />
+						<span>收货信息</span>
+					</div>
+					<div class="right" id="shouhuo">
+						<!--<p><span>收货人</span>&nbsp;:&nbsp;张一山</p>
+						<p><span>联系电话</span>&nbsp;:&nbsp;1383862545</p>
+						<p><span>收货地址</span>&nbsp;:&nbsp;郑州市二七区大学路陇海路交叉口南3000米，金海社区</p>
+						<div style="clear: both;"></div>-->
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+
+			</div>
+			<div class="zhuang kuaidi">
+				<!--<div class="da">
+					<div class="die">
+						<img src="images/v8.png" style="width: 8%;margin-top: 0px !important;" />
+						<span>配送信息</span>
+					</div>
+					<div class="right">
+						<p><span>快递公司</span>&nbsp;:&nbsp;顺丰快递</p>
+						<p><span>单号</span>&nbsp;:&nbsp;224215421545</p>
+						<p><span>运费</span>&nbsp;:&nbsp;&yen;100.00</p>
+						<div style="clear: both;"></div>
+					</div>
+					<div style="clear: both;"></div>
+				</div>-->
+			</div>
+		</div>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script>
+			mui.init();
+			var imgUrl = app.getServerUrl() + '/';
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				order_id = self.order_id;
+				status = self.status;
+				console.log(status);
+				console.log(order_id);
+				//订单详情
+				getOrderDetails(order_id,status);
+			})
+
+			function getOrderDetails(order_id,status) {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/order/orderDetail&token=' + localStorage.getItem('token'), {
+					data: {
+						orderId: order_id
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log("订单详情:" + JSON.stringify(data.order_goods_no_delive));
+						var html = '';
+						html += '<div class="quan"><div class="danhao">';
+						html += '<p style="color: #333;">订单号:' + data.order_no + '';
+						html += '<span style="float: right;color:#036342">' + data.shipping_status_name + '</span>';
+						html += '</p></div></div>';
+
+						mui.each(data.order_goods_no_delive, function(index, item) {
+							html += '<div class="tong">';
+							html += '<div class="zuo">';
+							html += '<img src="' + imgUrl + item.picture_info.pic_cover + '">';
+							html += '</div>';
+							html += '<div class="you">';
+							html += '<p class="mui-ellipsis-2">' + item.goods_name + '</p>';
+							html += '<span style="float: right;color: #f80219;font-size:1.5rem;">元币:'+data.point+'</span>';
+							html += '</div>';
+							html += '<div style="clear: both;"></div>';
+							html += '</div>';
+						})
+						html += '<div class="shi"><p>' + data.create_time + '</p></div>'; 
+						$(".biaodan").html(html);
+
+						var html1 = '';
+						html1 += '<p><span>收货人</span>&nbsp;:&nbsp;' + data.receiver_name + '</p>';
+						html1 += '<p><span>联系电话</span>&nbsp;:&nbsp;' + data.receiver_mobile + '</p>';
+						html1 += '<p><span>收货地址</span>&nbsp;:&nbsp;' + data.receiver_province + '' + data.receiver_city + '' + data.receiver_district + '' + data.receiver_address + '</p>';
+						html1 += '<div style="clear: both;"></div>';
+						$("#shouhuo").html(html1);
+						
+						
+						//已配送  显示快递信息
+						if(status==1){
+							var html2 = '';
+							html2 += '<div class="da"><div class="die">';
+							html2 += '<img src="images/v8.png" style="width: 8%;margin-top: 0px !important;" />';
+							html2 += '<span>配送信息</span></div>';
+							html2 +='<div class="right" id="kuaidi">';
+							html2 += '<p><span>快递公司</span>&nbsp;:&nbsp;顺丰快递</p>';
+							html2 += '<p><span>单号</span>&nbsp;:&nbsp;224215421545</p>';
+							html2 += '<p><p><span>运费</span>&nbsp;:&nbsp;&yen;100.00</p>';
+							html2 += '<div style="clear: both;"></div>';
+							html2 += '</div><div style="clear: both;"></div></div>';
+							$(".kuaidi").html(html2);
+							mui(".anniu")[0].classList.add("mui-hidden");
+						}
+						
+						
+							
+							
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+						mui.toast(type);
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

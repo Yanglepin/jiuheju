@@ -1,0 +1,429 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>限时秒杀</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.mui-segmented-control.mui-segmented-control-inverted {
+				width: 76%;
+				margin: 2% 12%;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				border-bottom: none;
+				/*background-color: #036342;*/
+				background: url(images/an.png) center no-repeat;
+				color: #fff;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+				display: block;
+				width: 44%;
+				line-height: 35px;
+				color: #666;
+				/*background-color: #d8dbda;*/
+				background: url(images/an1.png) center no-repeat;
+				border-radius: 25px;
+			}
+			
+			#sliderControl span {
+				width: 10%;
+				color: #cccccc;
+				line-height: 35px;
+				height: 35px;
+			}
+			
+			.limite-list {
+				border-bottom: 1px solid #f0f1f2;
+				width: 100%;
+			}
+			
+			.mui-slider-group {
+				width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">限时秒杀</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+
+			<!--轮播图-->
+			<div id="slider" class="mui-slider banner">
+				<div class="mui-slider-group mui-slider-loop" id="lunbo">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<!--<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 第一张 -->
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 第二张 -->
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 第三张 -->
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<!--<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/banner.png">
+						</a>
+					</div>-->
+				</div>
+				<div class="mui-slider-indicator" id="lunbo2">
+					<!--<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>-->
+				</div>
+			</div>
+
+			<div id="refreshContainer">
+				<div id="sliderControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-clearfix">
+					<a class="mui-control-item mui-pull-left mui-active" href="#item1" data-status="1">进行中</a>
+					<span class="mui-block mui-pull-left middle">|</span>
+					<a class="mui-control-item mui-pull-right" href="#item0" data-status="0">未进行</a>
+				</div>
+				<div style="border-bottom: 1px solid #d8d8d9;box-sizing: border-box;"></div>
+				<div class="mui-slider-group" id="segmentedControlContents" id="limite-list">
+					<div id="item1" class="mui-slider-item mui-control-content mui-active" style="border: 12px solid #f0f1f2; box-sizing: border-box;">
+						<!--<div class="limite-list mui-clearfix">
+							<div class="list-left mui-pull-left">
+								<img src="images/banner.png" />
+							</div>
+							<div class="list-right mui-pull-left">
+								<div class="list-title mui-ellipsis-2">人位</div>
+								<div class="list-middle">
+									<div class="list-middle-left">
+										<span class="red">￥1590.00</span>
+										<span class="gray">￥1500.00</span>
+									</div>
+									<div class="list-middle-right">已售:199</div>
+								</div>
+								<div class="list-bom">
+									<div class="list-bom-left">
+										&nbsp;倒计时
+										<span>06</span>
+										<span>:</span>
+										<span>24</span>
+										<span>:</span>
+										<span>06</span>
+									</div>
+									<div class="list-bom-right">
+										<span>立即购买</span>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="limite-list mui-clearfix">
+							<div class="list-left mui-pull-left">
+								<img src="images/banner.png" />
+							</div>
+							<div class="list-right mui-pull-left">
+								<div class="list-title mui-ellipsis-2">人位</div>
+								<div class="list-middle">
+									<div class="list-middle-left">
+										<span class="red">￥1590.00</span>
+										<span class="gray">￥1500.00</span>
+									</div>
+									<div class="list-middle-right">已售:199</div>
+								</div>
+								<div class="list-bom">
+									4月5日开售
+								</div>
+							</div>
+						</div>-->
+
+					</div>
+					<div id="item0" class="mui-slider-item mui-control-content" style="border: 12px solid #f0f1f2; box-sizing: border-box;">
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<input type="hidden" value="1" id="status_val" />
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					down: {
+						style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+						auto: true,
+						callback: push_down //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: false, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pull_up //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+			var page = 1;
+			var page_size = 15;
+			var page_total = 1;
+			var imgUrl = app.getServerUrl() + '/';
+			mui.plusReady(function() {
+				var status = 1;
+				mui('#sliderControl').on('tap', 'a', function() {
+					mui('#refreshContainer').pullRefresh().refresh(true);
+					var status = this.getAttribute("data-status");
+										console.log(status);
+					mui("#status_val")[0].value = status;
+					getLimiteGoods(status);
+				});
+				//				getLimiteGoods(status);
+				//轮播图
+				lunBo();
+
+			})
+
+			//获取轮播图 
+			function lunBo() {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/miaoLunbt&token=' + localStorage.getItem('token'), {
+					data: {},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						//						console.log("轮播图："+JSON.stringify(data));
+						//						return false;
+						if(JSON.stringify(data) != "{}") {
+							var html = '';
+							var length = data.adv_list.length;
+							var j = length - 1;
+							var moImg = data.adv_list[0].adv_image;
+							var moTitle = data.adv_list[0].adv_title;
+							var moImg1 = data.adv_list[j].adv_image;
+							var moTitle1 = data.adv_list[j].adv_title;
+							var imgUrl = app.getServerUrl() + '/';
+							var str = '';
+							html += '<div class="mui-slider-item mui-slider-item-duplicate"><a data-type="' + data.adv_list[j].adv_id + '" data-id="' + data.adv_list[j].adv_url + '"><img src="' + imgUrl + moImg1 + '" class="lazy" alt="' + moTitle1 + '"></a></div>';
+							mui.each(data.adv_list, function(index, item) {
+								html += '<div class="mui-slider-item"><a data-type="' + item.adv_id + '" data-id="' + item.adv_url + '"><img src="' + imgUrl + item.adv_image + '" class="lazy" alt="' + item.adv_title + '"></a></div>';
+
+								if(index == 0) {
+									str += '<div class="mui-indicator mui-active"></div>';
+								} else {
+									str += '<div class="mui-indicator"></div>';
+								}
+							});
+
+							html += '<div class="mui-slider-item mui-slider-item-duplicate"><a data-type="' + data.adv_list[0].adv_id + '" data-id="' + data.adv_list[0].adv_url + '"><img src="' + imgUrl + moImg + '" class="lazy" alt="' + moTitle + '"></a></div>';
+
+							document.getElementById("lunbo").innerHTML = html;
+							document.getElementById("lunbo2").innerHTML = str;
+							var gallery = mui('.mui-slider');
+							gallery.slider({
+								interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；
+							});
+						}
+						
+						mui('#lunbo').on('tap', '.mui-slider-item a', function() {
+							var id = this.getAttribute("data-id");
+							console.log(id);
+							if(id=='#'){
+								return false;
+							}else{
+								mui.openWindow({
+									id: 'goods_details',
+									url: 'goods_details.html', 
+									extras: { 
+										goods_id: id
+									},
+									waiting: { 
+										autoShow: true, //自动显示等待框，默认为true
+										title: '正在加载...' //等待对话框上显示的提示内容
+									}
+								});
+							}
+							
+						})
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+						mui.toast(type);
+					}
+				});
+			}
+
+			function getLimiteGoods(status) {
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/index/getMiaoShaList&token=' + localStorage.getItem('token'), {
+					data: {
+						page: page,
+						page_size: page_size,
+						status: status
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log(JSON.stringify(data));
+						var html = '';
+						var aTime = [];
+						if(data.total_count > 0) {
+							mui.each(data.data, function(index, item) {
+								html += '<div class="limite-list mui-clearfix" data-goodsid="' + item.goods_id + '">';
+								html += '<div class="list-left mui-pull-left">';
+								html += '<img src="' + imgUrl + item.picture.pic_cover + '" />';
+								html += '</div><div class="list-right mui-pull-left">';
+								html += '<div class="list-title mui-ellipsis-2">' + item.goods_name + '</div>';
+								html += '<div class="list-middle">';
+								html += '<div class="list-middle-left">';
+								html += '<span class="red">&yen;' + item.promotion_price + '</span>';
+								html += '<span class="gray">&yen;' + item.price + '</span>';
+								html += '</div>';
+								html += '<div class="list-middle-right">已售:199</div>';
+								html += '</div><div class="list-bom">';
+								if(status==1){   //进行中
+									html += '<div  class="list-bom-left timer' + index + '" data-time="' + item.end_time + '">&nbsp;倒计时&nbsp;';
+									html += '<span class="t_h_' + index + '">00</span>';
+									html += '<span>:</span>';
+									html += '<span class="t_m_' + index + '">00</span>';
+									html += '<span>:</span>';
+									html += '<span class="t_s_' + index + '">00</span>';
+									html += '</div>';
+									html += '<div class="list-bom-right"><span>立即购买</span></div>';
+								}
+								if(status==0){//未进行
+									html +=''+app.timestamptotime(item.start_time)+'开售';
+								}
+								
+								html += '</div></div></div>';
+								if(status==1){//进行中
+									var now_time = (new Date()).getTime() / 1000;
+									aTime.push(parseInt(item.end_time - now_time));
+								}
+								
+							})
+
+							page_total = data.page_count; 
+							//							console.log("总页数："+page_total);
+							if(page == 1) {
+								//								console.log("1当前页: "+page); 
+								$("#item" + status + "").html(html);
+							} else if(page <= page_total) {
+								$("#item" + status + "").append(html);
+								mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+								return false;
+							} else {
+								mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+								return false;
+							}
+						} else {
+							html = '<div style="text-align: center;"><img src="noresult.png" style="width:35%;"></div>';
+							$("#item" + status + "").html(html);
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh(true);
+							return false;
+						}
+						//商品详情
+//						mui("#item" + status + "").on('tap', '.limite-list', function() {
+						mui("#item1").on('tap', '.limite-list', function() {
+							var goods_id = this.getAttribute("data-goodsid");
+							console.log(goods_id);
+							mui.openWindow({
+								id: 'goods_details',
+								url: 'goods_details.html',
+								extras: {
+									goods_id: goods_id
+								},
+								waiting: {
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								}
+							});
+						});
+						if(status==1){//进行中
+							for(var i = 0; i < data.data.length; i++) {    
+								(function(i) {      
+									var obj = 'timer' + i;      
+									countDown(aTime[i], function(day, hour, minutes, seconds) {  
+//										hour = day == 0 ? '0'+hour : parseInt(24 * day+hour);
+										if ((parseInt(24 * day)+parseInt(hour)) <= 9) {
+											hour = '0' + hour;
+										}
+										if(day>0){
+											hour=parseInt(24 * day)+parseInt(hour);
+										}
+										$('.t_h_' + i).html(hour);  
+										$('.t_m_' + i).html(minutes); 
+										$('.t_s_' + i).html(seconds);     
+									})    
+								})(i)  
+							}    
+						}
+						
+
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast(type);
+						console.log(type);
+					}
+				});
+			}
+
+			//上拉加载
+			function pull_up() {
+				page++;
+				var status = document.getElementById("status_val").value;
+				getLimiteGoods(status);
+			}
+			//下拉刷新
+			function push_down() {
+				mui('#refreshContainer').pullRefresh().refresh(true);
+				page = 1;
+				var status = document.getElementById("status_val").value;
+				getLimiteGoods(status);
+				mui('#refreshContainer').pullRefresh().endPulldown();
+			}
+
+			 
+			/*function countDown(maxtime, fn) {      
+				var timer = setInterval(function() {        
+					if(maxtime) {            
+						var day = Math.floor(maxtime / 86400),
+					    hour = Math.floor((maxtime % 86400) / 3600),
+					    minutes = Math.floor((maxtime % 3600) / 60),
+					    seconds = Math.floor(maxtime % 60);
+//			            if (hour <= 9) hour = '0' + hour;
+			            if (minutes <= 9) minutes = '0' + minutes;
+			            if (seconds <= 9) seconds = '0' + seconds;
+//							 msg = "距离结束还有" + day + "天" + hour + "时" + minutes + "分" + seconds + "秒";          
+//							console.log(msg);
+						fn(day, hour, minutes, seconds);        
+						--maxtime;        
+					} else {          
+						clearInterval(timer);        
+						fn("时间到，结束!");       
+					}      
+				}, 1000);  
+			}  */
+		</script>
+	</body>
+
+</html>

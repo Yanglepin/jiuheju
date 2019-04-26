@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>我的中心</title>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link href="css/app1.css" rel="stylesheet" />
+	</head> 
+	<style>
+		.xiao span {
+			font-size: 15px;
+			float: right;
+			padding-top: 5%;
+			padding-right: 8%;
+		}
+		
+		.jine {
+			width: 92%;
+			margin-left: 4%;
+			margin-top: 5%;
+		}
+		
+		.jine p {
+			margin-bottom: 0px; 
+			height: 2.3rem;
+		}  
+		
+		.jine p img {
+			margin-bottom: 0px;
+			width: 10%;
+			vertical-align: middle;
+		}
+		.jine p span{
+			color: #333;
+			font-size: 1.2rem;
+		}
+		
+		.da1 {
+			width: 100%;
+			padding-top: 4%;
+		}
+		.left {
+			width: 20% !important;
+          float: left !important;
+          padding-left: 10% !important;
+          }
+		.didi {
+			width: 49.5%;
+			text-align: center;
+			float: left;
+		}
+		
+		.liebiao {
+			width: 100%;
+			background: #fff;
+		}
+		
+		.lie {
+			width: 100%;
+			padding: 3% 0%;
+		}
+		
+		.ding {
+			border-bottom: 1px solid #d5d4d5;
+			background: #fff;
+			padding: 2% 0%;
+		}
+		
+		.lie li {
+			width: 20%;
+			float: left;
+			text-align: center;
+		}
+		
+		.lie li p {
+			margin-bottom: 0px;
+			color: #333;
+		}
+		
+		li {
+			list-style: none;
+		}
+		
+		.mui-grid-view.mui-grid-9 {
+			margin: 0;
+			padding: 0;
+			border-top: 8px solid #f0f1f2;
+			border-bottom: 8px solid #f0f1f2;
+			background-color: #fff;
+		}
+		
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+			margin: 0;
+			padding: 11px 15px;
+			vertical-align: top;
+			border-right: 1px solid #fff !important;
+			border-bottom: 1px solid #fff !important;
+		}
+		.die{width: 100%;}
+		.die img{width: 100%;padding: 2% 0%;}
+	</style>
+
+	<body style="background: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">我的</h1>
+		</header>
+		<div class="mui-content">
+			<div class="bg">
+				<div class="info">
+					<div class="left">
+						<img src="images/tou.png" />
+					</div>
+					<div class="login-reg">
+						<div class="yincang">
+							<p style="font-size: 17px;color: #FFFFFF;margin-bottom: 3px;">13838692545</p>
+							<div class="xiao1">
+								<img src="images/v1.png" />
+								<span>一级代理</span>
+							</div>
+						</div>
+					</div>
+					<div class="llo">
+						<span style="color:#ffbb00;">立即升级>></span>
+					</div>
+					<div class="jian">
+						<span>></span>
+					</div>
+				</div>
+				<!--金额-->
+				<div class="jine">
+					<div class="da1">
+						<div class="didi" style="border-right: 1px solid #d9d9d9;">
+							<p style="color: #c41818;font-size: 18px;">0</p>
+							<p>
+								<img src="images/v2.png" />
+								<span>我的合币</span>
+							</p>
+						</div>
+						<div class="didi">
+							<p style="color: #c41818;font-size: 18px;">0</p>
+							<p>
+								<img src="images/v2.png" />
+								<span>余额</span>
+							</p>
+						</div>
+						<div style="clear: both;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="ding">
+				<span style="padding-left: 3%;font-size: 1.3rem;display: inline-block;width: 100%;" data-status="all">全部订单</span>
+			</div>
+			<div class="liebiao">
+				<div class="lie">
+					<li data-status="0" data-index="1">
+						<img src="images/z1.png" style="width: 53%;" />
+						<p>待付款</p>
+					</li>
+					<li data-status="1" data-index="2">
+						<img src="images/z5.png" style="width: 57%;" />
+						<p>已付款</p>
+					</li>
+					<li data-status="3" data-index="3">
+						<img src="images/z2.png" style="width: 54%;" />
+						<p>待收货</p>
+					</li>
+					<li data-status="4" data-index="4">
+						<img src="images/z3.png" style="width: 48%;" />
+						<p>已完成</p>
+					</li>
+					<li data-status="-1" data-index="5">
+						<img src="images/z4.png" style="width: 54%;" />
+						<p>退换货</p>
+					</li>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+
+		</div>
+		<div class="mui-table-view mui-grid-view mui-grid-9">
+			<li class="mui-table-view-cell mui-media mui-col-xs-4">
+				<a data-id="wodetuiguang" data-url="wodetuiguang.html">
+					<span class="icon1"><img src="images/x1.png"></span>
+					<div class="mui-media-body">我的推广</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-4">
+				<a data-id="tixianjilu" data-url="tixianjilu.html">
+					<span class="icon1"><img src="images/x2.png"></span>
+					<div class="mui-media-body">提现记录</div>
+				</a>
+			</li> 
+			<li class="mui-table-view-cell mui-media mui-col-xs-4">
+				<a data-id="shoucang" data-url="shoucang.html">
+					<span class="icon1"><img src="images/x3.png"></span>
+					<div class="mui-media-body">我的收藏</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-4">
+				<a data-id="address_message" data-url="address_message.html">
+					<span class="icon1"><img src="images/x4.png"></span>
+					<div class="mui-media-body">收货地址</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-4">
+				<a data-id="kefudianhua" data-url="kefudianhua.html">
+					<span class="icon1"><img src="images/x5.png"></span>
+					<div class="mui-media-body">客服电话</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-4">
+				<a data-id="tuichu" data-url="tuichu.html">
+					<span class="icon1"><img src="images/x6.png"></span>
+					<div class="mui-media-body">设置</div>
+				</a>
+			</li>
+		</div>
+        <div class="die">
+        	 <img src="images/j1.png"/>
+        </div>
+       	<script src="js/mui.min.js"></script>
+       	<script type="text/javascript" src="js/app.js" ></script>
+       	<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+        <script type="text/javascript">
+			mui.init();
+			mui.plusReady(function(){
+				memberData();
+				mui('.die').on('tap','img',function(){
+					mui.openWindow({
+						id: 'goods_list', 
+						url: 'goods_list.html',
+						extras: { 
+
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				})
+				mui('.mui-table-view-cell').on('tap','a',function(){
+					var id = this.getAttribute("data-id");
+					var url = this.getAttribute("data-url");
+					mui.openWindow({
+						id: id, 
+						url: url,
+						extras: { 
+
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				})
+				//升级
+				mui('.llo').on('tap','span',function(){
+					mui.openWindow({
+						id: 'shengji',
+						url: 'shengji.html',
+						extras: { 
+
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				})
+				
+				//我的订单
+				mui('.lie').on('tap','li',function(){
+					var status = this.getAttribute("data-status");
+					var index = this.getAttribute("data-index");
+					mui.openWindow({
+						id: 'my_order',
+						url: 'my_order.html',
+						extras: { 
+							status: status,
+							index: index
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				})
+				mui('.ding').on('tap','span',function(){
+					var status = this.getAttribute("data-status");
+					mui.openWindow({
+						id: 'my_order',
+						url: 'my_order.html',
+						extras: { 
+							status: status
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...' //等待对话框上显示的提示内容
+						}
+					});
+				})
+			})
+			function memberData(){
+				mui.ajax(app.getServerUrl() + '/index.php?s=/api/member/memberData&token=' + localStorage.getItem('token'),{
+					data:{
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(JSON.stringify(data.message)); 
+						var html='';
+						var html1='';
+						html+='<div class="yincang">';
+						html+='<p style="font-size: 17px;color: #FFFFFF;margin-bottom: 3px;">'+data.message.user_tel+'</p>';
+						html+='<div class="xiao1">';
+						html+='<img src="images/v1.png" />';
+						if(data.message.agent_name==null){
+							html+='<span>普通代理</span></div>';
+						}else{
+							html+='<span>'+data.message.agent_name+'</span></div>';
+						}
+						
+						html+='</div>';
+						$(".login-reg").html(html);
+						
+					
+						html1+='<div class="didi" style="border-right: 1px solid #d9d9d9;" data-id="wodehebi" data-url="wodehebi.html">';
+						if(data.message.data!=null){
+							html1+='<p style="color: #c41818;font-size: 18px;">'+data.message.data.point+'</p>';
+						}else{
+							html1+='<p style="color: #c41818;font-size: 18px;">0</p>';
+						}
+						html1+='<p><img src="images/v2.png" /><span>我的合币</span></p></div>';
+						html1+='<div class="didi" data-id="tixian" data-url="tixian.html">';
+						if(data.message.data!=null){
+							html1+='<p style="color: #c41818;font-size: 18px;">'+data.message.data.balance+'</p>';
+						}else{
+							html1+='<p style="color: #c41818;font-size: 18px;">0</p>';
+						}
+						html1+='<p><img src="images/v2.png" /><span>余额</span></p></div>';
+						html1+='<div style="clear: both;"></div>';
+						$(".da1").html(html1);
+						
+						
+						//我的合币,余额
+						mui('.da1').on('tap','.didi',function(){
+							var id = this.getAttribute("data-id");
+							var url = this.getAttribute("data-url");
+							mui.openWindow({
+								id: id,
+								url: url,
+								extras: { 
+		
+								},
+								waiting: {
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在加载...' //等待对话框上显示的提示内容
+								} 
+							});
+						})
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast(type);
+						console.log(type);
+					}
+				}); 
+			}
+			
+		</script>
+	</body>
+
+</html>
